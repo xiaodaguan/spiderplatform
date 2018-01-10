@@ -1,4 +1,4 @@
-package cn.guanxiaoda.spider.appServer;
+package cn.guanxiaoda.spider.appserver;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

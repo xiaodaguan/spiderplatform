@@ -1,11 +1,9 @@
 server:
-  port: 8201
-
+  port: 8301
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8100/eureka/
 spring:
   application:
-    name: crawlerengine
-
+    name: scheduler

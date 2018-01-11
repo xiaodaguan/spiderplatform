@@ -1,5 +1,7 @@
 ## spider center
 
+### progress
+
 - service register ![Progress](http://progressed.io/bar/50)   
 
 - config center ![Progress](http://progressed.io/bar/5?title=init)   
@@ -10,6 +12,9 @@
     - consumer ![Progress](http://progressed.io/bar/5?title=init)   
     
         接收任务成功
+
+### 架构
+![图呢](resources/imgs/我是图.png)
 
 ### 消息格式约定
 

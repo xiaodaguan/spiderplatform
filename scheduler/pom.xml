@@ -37,6 +37,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>cn.guanxiaoda.spider</groupId>
+            <artifactId>core</artifactId>
+        </dependency>
     </dependencies>
 
 

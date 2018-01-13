@@ -5,7 +5,32 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8100/eureka/
+## spring
 spring:
   application:
     name: crawlerengine
+#  redis:
+#    database: 0
+#    host: 127.0.0.1
+#    port: 6379
+#    password:
+#    pool:
+#      max-active: 8
+#      max-wait: -1
+#      min-idle: 0
+#    timeout: 0
+
+## project
+mq:
+  topic:
+    parser:
+      task:
+        list: mq_parse_task_list
+        detail: mq_parse_task_detail
+    crawler:
+      task:
+        test: mq_crawl_task_test
+
+debug: false
+
 

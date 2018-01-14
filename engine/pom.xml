@@ -45,6 +45,12 @@
             <groupId>cn.guanxiaoda.spider</groupId>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${version.apachehc}</version>
+        </dependency>
+
 
     </dependencies>
 

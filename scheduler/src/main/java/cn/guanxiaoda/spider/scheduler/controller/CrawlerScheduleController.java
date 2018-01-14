@@ -14,7 +14,7 @@ public class CrawlerScheduleController {
     @Autowired
     CrawlerScheduleService crawlerScheduleService;
 
-    @RequestMapping(value = "/crawl", method = RequestMethod.POST)
+    @RequestMapping(value = "/crawlTask", method = RequestMethod.POST)
     public String sayHi(@RequestBody String taskJson){
         return crawlerScheduleService.submitTask(taskJson);
     }

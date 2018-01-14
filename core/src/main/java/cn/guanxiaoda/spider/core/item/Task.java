@@ -16,13 +16,15 @@ import java.time.LocalDateTime;
 public class Task {
 
     private String taskId = "task";
-
     private int entity = Entity.DEFAULT.ordinal();
     private int type = Type.DEFAULT.ordinal();
-
     private int site = Site.DEFAULT.ordinal();
     private int source = Source.PC.ordinal();
-
     private LocalDateTime createTime = LocalDateTime.now();
-
+    private FetchResult fetchResult;
+    /**
+     * 只有在fetch失败时重试
+     */
+    private int retryNum = 0;
+    private int maxRetry = 3;
 }

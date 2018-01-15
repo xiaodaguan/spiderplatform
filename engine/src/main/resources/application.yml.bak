@@ -31,6 +31,9 @@ mq:
       task:
         test: mq_crawl_task_test
 
+proxy:
+  fetchRate:
+    kdl: 4.9
 debug: false
 
 

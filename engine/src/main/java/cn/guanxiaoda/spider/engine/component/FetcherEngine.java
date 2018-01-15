@@ -4,7 +4,7 @@ import cn.guanxiaoda.spider.core.enums.Status;
 import cn.guanxiaoda.spider.core.item.FetchResult;
 import cn.guanxiaoda.spider.core.item.Task;
 import cn.guanxiaoda.spider.engine.ctx.Selector;
-import cn.guanxiaoda.spider.engine.mq.MQManager;
+import cn.guanxiaoda.spider.engine.manager.mq.MQManager;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +42,7 @@ public class FetcherEngine {
 
     private void listener() {
         while (true) {
+            // receive task
             Task task = mqManager.receiveTask(fetcherListMq);
             if (task == null) {
                 try {
@@ -51,9 +52,12 @@ public class FetcherEngine {
                 }
                 continue;
             }
+            // select fetcher
             IFetcher fetcher = Selector.selectFetcher(task.getSite(), task.getSource(), task.getEntity(), task.getType());
+            // fetch
             FetchResult fetchResult = fetcher.fetch(task);
             task.setFetchResult(fetchResult);
+            // post process
             if (fetchResult != null && fetchResult.getStatus() == Status.SUCCESS) {
                 mqManager.submitTask(parserListMq, task);
             } else {

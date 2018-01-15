@@ -7,6 +7,8 @@ import cn.guanxiaoda.spider.core.enums.Type;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by guanxiaoda on 2018/1/11.
@@ -27,4 +29,8 @@ public class Task {
      */
     private int retryNum = 0;
     private int maxRetry = 3;
+    /**
+     * meta
+     */
+    Map<String, String> meta = new HashMap<String, String>();
 }

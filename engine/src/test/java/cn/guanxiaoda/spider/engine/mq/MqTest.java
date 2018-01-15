@@ -5,6 +5,7 @@ import cn.guanxiaoda.spider.core.enums.Site;
 import cn.guanxiaoda.spider.core.enums.Source;
 import cn.guanxiaoda.spider.core.enums.Type;
 import cn.guanxiaoda.spider.core.item.Task;
+import cn.guanxiaoda.spider.engine.manager.mq.MQManager;
 import com.alibaba.fastjson.JSON;
 import org.junit.Before;
 import org.junit.Test;

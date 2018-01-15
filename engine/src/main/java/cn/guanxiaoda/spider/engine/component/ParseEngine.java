@@ -1,7 +1,7 @@
 package cn.guanxiaoda.spider.engine.component;
 
 import cn.guanxiaoda.spider.core.item.Task;
-import cn.guanxiaoda.spider.engine.mq.MQManager;
+import cn.guanxiaoda.spider.engine.manager.mq.MQManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

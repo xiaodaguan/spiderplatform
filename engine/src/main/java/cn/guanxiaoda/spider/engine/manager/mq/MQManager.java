@@ -1,4 +1,4 @@
-package cn.guanxiaoda.spider.engine.mq;
+package cn.guanxiaoda.spider.engine.manager.mq;
 
 import cn.guanxiaoda.spider.core.item.Task;
 import com.alibaba.fastjson.JSON;

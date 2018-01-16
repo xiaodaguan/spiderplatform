@@ -5,16 +5,13 @@ import cn.guanxiaoda.spider.core.item.FetchResult;
 import cn.guanxiaoda.spider.core.item.Task;
 import cn.guanxiaoda.spider.engine.ctx.Selector;
 import cn.guanxiaoda.spider.engine.manager.mq.MQManager;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by guanxiaoda on 2018/1/13.
@@ -30,10 +27,12 @@ public class FetcherEngine {
     String parserListMq = "";
 
     @Autowired
+    @Qualifier("fetcherPool")
+    ThreadPoolExecutor fetcherPool;
+
+    @Autowired
     MQManager mqManager;
 
-    private ThreadFactory namedFactory = new ThreadFactoryBuilder().setNameFormat("FETCHER-POOL-%d").build();
-    private ThreadPoolExecutor fetcherPool = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.SECONDS, new LinkedBlockingDeque<>(Integer.MAX_VALUE), namedFactory);
 
     public void run() {
         log.info("Fetch engine started.");

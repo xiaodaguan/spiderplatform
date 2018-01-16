@@ -35,7 +35,11 @@
             <version>${version.fastjson}</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>org.nutz</groupId>
+            <artifactId>nutz</artifactId>
+            <version>${version.nutz}</version>
+        </dependency>
 
     </dependencies>
 

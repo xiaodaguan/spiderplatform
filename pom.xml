@@ -31,6 +31,7 @@
         <version.fastjson>1.2.44</version.fastjson>
         <version.jackson.mapper>1.9.13</version.jackson.mapper>
         <version.apachehc>4.5.4</version.apachehc>
+        <version.nutz>1.r.63.r5</version.nutz>
 
     </properties>
     <dependencies>

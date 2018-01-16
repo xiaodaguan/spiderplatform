@@ -51,6 +51,11 @@
             <version>${version.apachehc}</version>
         </dependency>
 
+       <dependency>
+            <groupId>org.nutz</groupId>
+            <artifactId>nutz</artifactId>
+            <version>${version.nutz}</version>
+        </dependency>
 
     </dependencies>
 

@@ -1,8 +1,9 @@
-package cn.guanxiaoda.spider.engine.component;
+package cn.guanxiaoda.spider.engine.component.engine;
 
 import cn.guanxiaoda.spider.core.enums.Status;
 import cn.guanxiaoda.spider.core.item.FetchResult;
 import cn.guanxiaoda.spider.core.item.Task;
+import cn.guanxiaoda.spider.engine.component.IFetcher;
 import cn.guanxiaoda.spider.engine.ctx.Selector;
 import cn.guanxiaoda.spider.engine.manager.mq.MQManager;
 import lombok.extern.slf4j.Slf4j;
@@ -18,13 +19,13 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 @Component
 @Slf4j
-public class FetcherEngine {
+public class FetcherEngine implements IEngine {
 
     @Value("mq.topic.fetcher.task.list")
-    String fetcherListMq = "";
+    String mqFrom = "";
 
     @Value("mq.topic.parser.task.list")
-    String parserListMq = "";
+    String mqTo = "";
 
     @Autowired
     @Qualifier("fetcherPool")
@@ -39,26 +40,28 @@ public class FetcherEngine {
         fetcherPool.submit(this::listener);
     }
 
-    private void listener() {
+    @Override
+    public void listener() {
         while (true) {
             // receive task
-            Task task = mqManager.receiveTask(fetcherListMq);
+            try {
+                Thread.sleep(RECEIVE_INTERVAL);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Task task = mqManager.receiveTask(mqFrom);
             if (task == null) {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
                 continue;
             }
-            // select fetcher
+            // select processer
             IFetcher fetcher = Selector.selectFetcher(task.getSite(), task.getSource(), task.getEntity(), task.getType());
-            // fetch
-            FetchResult fetchResult = fetcher.fetch(task);
+            // process
+            FetchResult fetchResult = fetcher.process(task);
             task.setFetchResult(fetchResult);
             // post process
             if (fetchResult != null && fetchResult.getStatus() == Status.SUCCESS) {
-                mqManager.submitTask(parserListMq, task);
+                mqManager.submitTask(mqTo, task);
             } else {
                 // retry
                 synchronized (this) {
@@ -66,9 +69,9 @@ public class FetcherEngine {
                 }
                 if (task.getRetryNum() > task.getMaxRetry()) {
                     // drop task
-                    log.error("drop task(max retry), task={}", task);
+                    log.error("drop task(max retry), taskId={}", task.getTaskId());
                 } else {
-                    mqManager.submitTask(fetcherListMq, task);
+                    mqManager.submitTask(mqFrom, task);
                 }
             }
         }

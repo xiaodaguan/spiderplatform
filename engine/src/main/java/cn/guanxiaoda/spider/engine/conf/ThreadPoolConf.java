@@ -21,6 +21,8 @@ public class ThreadPoolConf {
     int fetcherThread = 1;
     @Value("thread.parser")
     int parserThread = 1;
+    @Value("thread.storager")
+    int storagerThread = 1;
 
 
     @Bean(name = "fetcherPool")
@@ -36,4 +38,12 @@ public class ThreadPoolConf {
         return new ThreadPoolExecutor(parserThread, parserThread, 0L, TimeUnit.SECONDS, new LinkedBlockingDeque<>(Integer.MAX_VALUE), namedFactory);
 
     }
+
+    @Bean(name = "storagerPool")
+    ThreadPoolExecutor storagerPool() {
+        ThreadFactory namedFactory = new ThreadFactoryBuilder().setNameFormat("STORAGER-POOL-%d").build();
+        return new ThreadPoolExecutor(storagerThread, storagerThread, 0L, TimeUnit.SECONDS, new LinkedBlockingDeque<>(Integer.MAX_VALUE), namedFactory);
+
+    }
+
 }

@@ -5,7 +5,7 @@ package cn.guanxiaoda.spider.core.constant;
  */
 public class Const {
 
-    public static final String FETCHER_KEY_FORMAT = "%s%s%s%sFetcher";
+    public static final String KEY_FORMAT = "%s_%s_%s_%s";
 
     public class SEP {
         public static final String COLON = ":";

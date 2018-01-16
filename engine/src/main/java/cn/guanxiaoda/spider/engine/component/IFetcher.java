@@ -14,7 +14,7 @@ public interface IFetcher {
     /**
      * 不允许返回空值
      */
-    FetchResult fetch(Task task);
+    FetchResult process(Task task);
 
     String genRequestUrl(Task task);
 

@@ -1,5 +1,7 @@
 package cn.guanxiaoda.spider.core.enums;
 
+import cn.guanxiaoda.spider.core.db.BaseEntity;
+import cn.guanxiaoda.spider.core.db.HouseInfo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,12 +18,13 @@ public enum Entity {
     /**
      * 未分类
      */
-    DEFAULT("Default"),
+    DEFAULT("Default", BaseEntity.class),
     /**
      * 房
      */
-    HOUSE("House"),;
+    HOUSE("House", HouseInfo.class),;
     private String name;
+    private Class entityClass;
 
     public static Entity valueOf(int ordinal) {
         if (ordinal < 0 || ordinal >= values().length) {

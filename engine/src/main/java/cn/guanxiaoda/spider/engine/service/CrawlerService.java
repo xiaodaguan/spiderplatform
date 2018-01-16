@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
+ * 对外提供crawl服务
  * Created by guanxiaoda on 2018/1/11.
  */
 @Service

@@ -36,6 +36,7 @@ public class KDLProxyFetcher implements IProxyFetcher {
     @Override
     @Scheduled(fixedRate = 1000 * 10)
     public void flushProxyList() {
+        log.info("refreshing proxy list... rateLimit={}, url={}", rateLimit, url);
         List<String> proxyListFromProvider = new ArrayList<>();
         String cont = httpHandler.request(url);
         if (StringUtils.isNotEmpty(cont)) {
@@ -47,5 +48,6 @@ public class KDLProxyFetcher implements IProxyFetcher {
         }
 
         Selector.setProxyList(proxyListFromProvider);
+        log.info("refreshing proxy done.");
     }
 }

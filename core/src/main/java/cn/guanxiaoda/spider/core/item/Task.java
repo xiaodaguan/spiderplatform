@@ -17,20 +17,22 @@ import java.util.Map;
 @Data
 public class Task {
 
+    /**
+     * meta
+     */
+    Map<String, String> meta = new HashMap<String, String>();
     private String taskId = "task";
     private int entity = Entity.DEFAULT.ordinal();
     private int type = Type.DEFAULT.ordinal();
     private int site = Site.DEFAULT.ordinal();
     private int source = Source.PC.ordinal();
-    private LocalDateTime createTime = LocalDateTime.now();
+    private LocalDateTime startTime = LocalDateTime.now();
+    private LocalDateTime endTime;
     private FetchResult fetchResult;
+    private ParseResult parseResult;
     /**
      * 只有在fetch失败时重试
      */
     private int retryNum = 0;
     private int maxRetry = 3;
-    /**
-     * meta
-     */
-    Map<String, String> meta = new HashMap<String, String>();
 }

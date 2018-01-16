@@ -10,7 +10,7 @@ import org.nutz.dao.entity.annotation.Table;
  */
 @Table("house_info")
 @Data
-public class HouseInfo {
+public class HouseInfo extends BaseEntity {
 
     private String name;
 

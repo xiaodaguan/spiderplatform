@@ -23,7 +23,7 @@ public abstract class BaseFetcher implements IFetcher {
     HttpHandler httpHandler;
 
     @Override
-    public FetchResult fetch(Task task) {
+    public FetchResult process(Task task) {
         String url = genRequestUrl(task);
         HashMap<String, String> headers = genRequestHeaders(task);
         RequestMethod method = genRequestMethod(task);

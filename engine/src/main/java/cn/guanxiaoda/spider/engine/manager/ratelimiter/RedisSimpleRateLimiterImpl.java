@@ -34,15 +34,6 @@ public class RedisSimpleRateLimiterImpl implements SimpleRateLimiter {
 
     @Override
     public boolean acquire(String limitKey, double qps) {
-//        if (qps < (1 / Const.Numbers.MINITE)) {
-//            throw new RuntimeException("unsupport qps range:" + qps);
-//        } else {
-//            if (qps < 1) {
-//                return acquire(limitKey, (int) (qps * 60), TimeUnit.MINUTES, 61);
-//            } else {
-//                return acquire(limitKey, (int) qps, TimeUnit.SECONDS, 2);
-//            }
-//        }
         String key = String.format("%s:%s", redisKey, limitKey);
         Long interval = new Double(1.0 / qps * 1000).longValue();
         Long expire = interval * 2;
@@ -50,28 +41,6 @@ public class RedisSimpleRateLimiterImpl implements SimpleRateLimiter {
 
 
         return longRedisTemplate.execute(redisScript, Collections.singletonList(key), new String[]{String.valueOf(interval), String.valueOf(expire), String.valueOf(current)}).equals(1L);
-    }
-
-    /**
-     * @param limitKey
-     * @param limit
-     * @param timeUnit
-     * @param expire   unit: seconds
-     * @return
-     */
-    private boolean acquire(String limitKey, int limit, TimeUnit timeUnit, int expire) {
-        String key = null;
-
-        if (timeUnit == TimeUnit.SECONDS) {
-            key = String.format("%s:%s:%s", redisKey, limitKey, LocalDateTime.now().format(dtf));
-        } else if (timeUnit == TimeUnit.MINUTES) {
-            key = String.format("%s:%s:%s", redisKey, limitKey, LocalDateTime.now().format(dtf1));
-        }
-        // todo 从服务器获取时钟
-        // 1秒1个key
-        List<String> keys = Collections.singletonList(key);
-        String[] args = new String[]{String.valueOf(limit), String.valueOf(expire)};
-        return longRedisTemplate.execute(redisScript, keys, args).equals(1L);
     }
 
 }

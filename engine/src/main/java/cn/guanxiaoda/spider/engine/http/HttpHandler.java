@@ -64,7 +64,7 @@ public class HttpHandler {
                 .setSocketTimeout(6000)
                 .setConnectionRequestTimeout(6000);
         if (proxy != null) {
-            configBuilder.setProxy(new HttpHost(proxy.split(Const.SEP.COLON)[0], Integer.parseInt(proxy.split(Const.SEP.COLON)[1])));
+            configBuilder.setProxy(new HttpHost(proxy.split(Const.Seps.COLON)[0], Integer.parseInt(proxy.split(Const.Seps.COLON)[1])));
         }
         RequestConfig config = configBuilder.build();
 

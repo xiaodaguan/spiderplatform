@@ -1,4 +1,4 @@
-package cn.guanxiaoda.spider.engine.proxy;
+package cn.guanxiaoda.spider.engine.manager.proxy;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

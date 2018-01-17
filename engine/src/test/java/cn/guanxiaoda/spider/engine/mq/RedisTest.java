@@ -25,6 +25,9 @@ public class RedisTest {
     @Autowired
     RedisTemplate<String, Object> listRedisTemplate;
 
+    @Autowired
+    RedisTemplate<String, Integer> intRedisTemplate;
+
     @Test
     public void stringTemplateTest() {
         stringRedisTemplate.opsForValue().set("test", "gxd");
@@ -41,6 +44,22 @@ public class RedisTest {
 
     @Test
     public void listPopTest() {
-        IntStream.range(0, 10).forEach(i-> System.out.println(listRedisTemplate.opsForList().rightPop("mq_test")));
+        IntStream.range(0, 10).forEach(i -> System.out.println(listRedisTemplate.opsForList().rightPop("mq_test")));
+    }
+
+
+    @Test
+    public void intTest() {
+        String key = "testforint";
+        Integer getNotExist = intRedisTemplate.opsForValue().get(key);
+        if (getNotExist == null) {
+            System.out.println("insert value");
+            intRedisTemplate.opsForValue().set(key, 1);
+        }
+        System.out.println(getNotExist);
+        Long stat = intRedisTemplate.opsForValue().increment(key, 95);
+        System.out.println(stat);
+        int afterIncre = intRedisTemplate.opsForValue().get(key);
+        System.out.println(afterIncre);
     }
 }

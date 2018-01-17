@@ -2,6 +2,7 @@ package cn.guanxiaoda.spider.engine.conf;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,14 +15,15 @@ import java.util.concurrent.TimeUnit;
  * Created by guanxiaoda on 2018/1/16.
  */
 @Configuration
+@ConfigurationProperties
 public class ThreadPoolConf {
 
 
-    @Value("thread.fetcher")
+    @Value("${thread.fetcher}")
     int fetcherThread = 1;
-    @Value("thread.parser")
+    @Value("${thread.parser}")
     int parserThread = 1;
-    @Value("thread.storager")
+    @Value("${thread.storager}")
     int storagerThread = 1;
 
 

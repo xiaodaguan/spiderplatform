@@ -10,11 +10,4 @@ public interface IParser {
 
     ParseResult process(Task task);
 
-    IParser getPropertyAsList(String property, String select, int expectCount);
-
-    IParser getPropertyAsList(String property, String select);
-
-    IParser getSingleProperty(String property, String select, boolean required);
-
-    IParser getSingleProperty(String property, String select);
 }

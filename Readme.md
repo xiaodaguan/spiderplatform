@@ -14,7 +14,7 @@
 ### 架构
 ![图呢](z-resources/imgs/我是图.png)
 
-### 消息格式约定
+### 约定
 
 #### task
 
@@ -23,6 +23,17 @@
     meta: Map<String, String>
 
 ```
+
+#### parser
+选择器语法:
+
+|标识符|类型|说明|
+|-----|---|----|
+|$x.|xpath||
+|$c.|css|必须以#text/#attr结束|
+|$j.|jsonpath||
+|$r.|regex||
+
 ### host&ports
 
 - localhost:

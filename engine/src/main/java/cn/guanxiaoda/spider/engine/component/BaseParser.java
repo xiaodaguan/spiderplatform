@@ -1,11 +1,13 @@
 package cn.guanxiaoda.spider.engine.component;
 
+import cn.guanxiaoda.spider.core.db.HouseInfo;
+import cn.guanxiaoda.spider.core.enums.Status;
 import cn.guanxiaoda.spider.core.item.ParseResult;
 import cn.guanxiaoda.spider.core.item.Task;
-import cn.guanxiaoda.spider.engine.component.expression.Expression;
-import cn.guanxiaoda.spider.engine.component.extractor.DetailExtractor;
-import cn.guanxiaoda.spider.engine.component.extractor.ListExtractor;
+import im.nll.data.extractor.Extractors;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 /**
  * xpath 解析暂未支持
@@ -15,4 +17,13 @@ import lombok.extern.slf4j.Slf4j;
 public abstract class BaseParser<T> implements IParser {
 
 
+    @Override
+    public ParseResult process(Task task) {
+        Extractors extractors = Extractors.on(task.getFetchResult().getContent());
+        return new ParseResult(extractList(extractors), extractTotal(extractors), Status.SUCCESS);
+    }
+
+    protected abstract int extractTotal(Extractors extractors);
+
+    protected abstract List<T> extractList(Extractors extractors);
 }

@@ -18,7 +18,8 @@ import java.util.Map;
 public class Task {
 
     /**
-     * meta
+     * meta:
+     *  pageNum
      */
     Map<String, String> meta = new HashMap<String, String>();
     private String taskId = "task";

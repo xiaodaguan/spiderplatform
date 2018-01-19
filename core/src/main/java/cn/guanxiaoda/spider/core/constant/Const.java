@@ -9,6 +9,8 @@ public class Const {
 
     public class Strings {
         public static final String EMPTY = "";
+        public static final String ONE = "1";
+
     }
 
     public class Numbers {
@@ -20,22 +22,12 @@ public class Const {
         public static final String COMMA = ",";
         public static final String STRIKETHROUGH = "-";
         public static final String UNDERLINE = "_";
+        public static final String EQUAL = "=";
     }
 
     public class TaskParams {
         public static final String PAGE_NUM = "pageNum";
         public static final String PAGE_SIZE = "pageSize";
-    }
-
-    public class Parsers {
-        public static final String JPATH_PREFIX = "$j.";
-        public static final String XPATH_PREFIX = "$x.";
-        public static final String CPATH_PREFIX = "$c.";
-        public static final String RPATH_PREFIX = "$r.";
-
-        public static final String TEXT_POSTFIX = "#text";
-        public static final String ATTR_POSTFIX = "#attr";
-
     }
 
 }

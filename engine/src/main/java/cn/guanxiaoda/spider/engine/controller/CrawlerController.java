@@ -23,6 +23,6 @@ public class CrawlerController {
     public String crawl(@RequestBody String taskJson) {
         Task task = JSON.parseObject(taskJson, Task.class);
         crawlerService.handleTask(task);
-        return null;
+        return "ok.";
     }
 }

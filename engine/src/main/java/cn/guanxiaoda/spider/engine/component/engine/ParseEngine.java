@@ -1,19 +1,25 @@
 package cn.guanxiaoda.spider.engine.component.engine;
 
+import cn.guanxiaoda.spider.core.constant.Const;
 import cn.guanxiaoda.spider.core.enums.Status;
 import cn.guanxiaoda.spider.core.item.ParseResult;
 import cn.guanxiaoda.spider.core.item.Task;
 import cn.guanxiaoda.spider.engine.component.IParser;
 import cn.guanxiaoda.spider.engine.ctx.Selector;
 import cn.guanxiaoda.spider.engine.manager.mq.MQManager;
+import cn.guanxiaoda.spider.engine.manager.task.TaskManager;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.IntStream;
 
 /**
  * Created by guanxiaoda on 2018/1/13.
@@ -35,13 +41,15 @@ public class ParseEngine implements IEngine {
     @Autowired
     @Qualifier("parserPool")
     ThreadPoolExecutor parserPool;
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd");
+    @Autowired
+    TaskManager taskManager;
 
     public void run() {
         log.info("Parse engine started.");
         parserPool.submit(this::listener);
 
     }
-
 
     @Override
     public void listener() {
@@ -61,6 +69,18 @@ public class ParseEngine implements IEngine {
             // process
             ParseResult parseResult = parser.process(task);
             task.setParseResult(parseResult);
+            /* transmit page tasks */
+            if (Const.Strings.ONE.equals(task.getMeta().get(Const.TaskParams.PAGE_NUM)) && parseResult.getStatus() == Status.SUCCESS && parseResult.getTotalPage() > 1) {
+                IntStream.range(2, parseResult.getTotalPage() + 1).forEach(pageNum -> {
+                    Task newTask = new Task();
+                    BeanUtils.copyProperties(task, newTask, "taskId", "startTime", "fetchResult", "parseResult");
+                    newTask.getMeta().put(Const.TaskParams.PAGE_NUM, String.valueOf(pageNum));
+                    newTask.setTaskId(String.format("%s-%s-%s-%s-%s-%d", LocalDateTime.now().format(dtf), task.getSite(), task.getSource(), task.getEntity(), task.getType(), pageNum));
+                    newTask.setStartTime(LocalDateTime.now());
+                    taskManager.task2Scheduler(newTask);
+                });
+            }
+
             // post process
             if (parseResult != null && parseResult.getStatus() == Status.SUCCESS) {
                 mqManager.submitTask(mqTo, task);

@@ -69,7 +69,7 @@ public class ParseEngine implements IEngine {
             // process
             ParseResult parseResult = parser.process(task);
             task.setParseResult(parseResult);
-            /* transmit page tasks */
+            /* transfer page tasks */
             if (Const.Strings.ONE.equals(task.getMeta().get(Const.TaskParams.PAGE_NUM)) && parseResult.getStatus() == Status.SUCCESS && parseResult.getTotalPage() > 1) {
                 IntStream.range(2, parseResult.getTotalPage() + 1).forEach(pageNum -> {
                     Task newTask = new Task();

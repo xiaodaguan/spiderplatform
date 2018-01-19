@@ -75,6 +75,12 @@
             <version>${version.fastjson}</version>
         </dependency>
 
+        <dependency>
+            <groupId>im.nll.data</groupId>
+            <artifactId>extractor</artifactId>
+            <version>${version.nll.extractor}</version>
+        </dependency>
+
 
     </dependencies>
 

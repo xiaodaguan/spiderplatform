@@ -39,7 +39,8 @@
         <version.json-path>1.1.0</version.json-path>
         <version.jsoup>1.11.2</version.jsoup>
         <version.fastjson>1.2.44</version.fastjson>
-
+        <version.nll.extractor>0.9.6</version.nll.extractor>
+        <version.guava>23.6-jre</version.guava>
     </properties>
     <dependencies>
         <dependency>

@@ -29,10 +29,10 @@ public class HouseInfo extends BaseEntity {
     private String tags;
 
     // 总价
-    private Integer price;
+    private String price;
 
     // 单价
-    private Float unitPrice;
+    private String unitPrice;
 
     // 挂牌日期
     private String onlineDate;
@@ -65,8 +65,8 @@ public class HouseInfo extends BaseEntity {
      */
     private String houseTypeDetail;
 
-    private Float lat;
-    private Float lng;
+    private String lat;
+    private String lng;
     // 坐标系
     private Integer coordinateFlag;
 

@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.*;
  * Created by guanxiaoda on 2018/1/11.
  */
 @RestController
+@RequestMapping("/scheduler")
 public class CrawlerScheduleController {
 
     @Autowired
     CrawlerScheduleService crawlerScheduleService;
 
-    @RequestMapping(value = "/crawlTask", method = RequestMethod.POST)
+    @RequestMapping(value = "/receive", method = RequestMethod.POST)
     public String sayHi(@RequestBody String taskJson){
         return crawlerScheduleService.submitTask(taskJson);
     }

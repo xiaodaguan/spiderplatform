@@ -19,10 +19,14 @@
 #### api
 scheduler:
 ```
-接收任务: 
-post /crawlTask
-body:
-task json str
+controller接收任务: /scheduler/receive
+-> service: /crawler/receive
+
+```
+
+engine:
+```
+controller接收任务: /crawler/receive
 ```
 
 

@@ -29,8 +29,6 @@ public class RedisSimpleRateLimiterImpl implements SimpleRateLimiter {
     String redisKey = "redis_rl_key";
     @Autowired
     RedisScript<Long> redisScript;
-    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-    private DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
 
     @Override
     public boolean acquire(String limitKey, double qps) {

@@ -7,7 +7,8 @@ import cn.guanxiaoda.spider.core.item.Task;
 import cn.guanxiaoda.spider.engine.component.IParser;
 import cn.guanxiaoda.spider.engine.ctx.Selector;
 import cn.guanxiaoda.spider.engine.manager.mq.MQManager;
-import cn.guanxiaoda.spider.engine.manager.task.TaskManager;
+import cn.guanxiaoda.spider.engine.service.ITaskManager;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +40,13 @@ public class ParseEngine implements IEngine {
     MQManager mqManager;
 
     @Autowired
+//    @Qualifier("taskManager")
+    ITaskManager taskManager;
+
+    @Autowired
     @Qualifier("parserPool")
     ThreadPoolExecutor parserPool;
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd");
-    @Autowired
-    TaskManager taskManager;
+    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     public void run() {
         log.info("Parse engine started.");
@@ -77,7 +80,8 @@ public class ParseEngine implements IEngine {
                     newTask.getMeta().put(Const.TaskParams.PAGE_NUM, String.valueOf(pageNum));
                     newTask.setTaskId(String.format("%s-%s-%s-%s-%s-%d", LocalDateTime.now().format(dtf), task.getSite(), task.getSource(), task.getEntity(), task.getType(), pageNum));
                     newTask.setStartTime(LocalDateTime.now());
-                    taskManager.task2Scheduler(newTask);
+
+                    taskManager.sendTaskMsg(JSON.toJSONString(newTask));
                 });
             }
 

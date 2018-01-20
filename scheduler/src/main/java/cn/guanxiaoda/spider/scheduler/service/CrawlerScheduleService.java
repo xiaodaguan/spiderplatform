@@ -12,6 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(value = "crawlerengine")
 public interface CrawlerScheduleService {
 
-    @RequestMapping(value = "/crawlTask", method = RequestMethod.POST)
+    @RequestMapping(value = "/crawler/receive", method = RequestMethod.POST)
     String submitTask(@RequestBody String taskJson);
 }

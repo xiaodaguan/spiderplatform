@@ -20,11 +20,10 @@ public class CrawlerService {
     @Autowired
     MQManager mqManager;
 
-
-
     public void handleTask(Task task) {
         mqManager.submitTask(fetcherListMq, task);
     }
+
 
 
 }

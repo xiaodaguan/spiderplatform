@@ -1,7 +1,7 @@
 package cn.guanxiaoda.spider.core.enums;
 
-import cn.guanxiaoda.spider.core.db.BaseEntity;
-import cn.guanxiaoda.spider.core.db.HouseInfo;
+import cn.guanxiaoda.spider.core.po.BaseEntity;
+import cn.guanxiaoda.spider.core.po.HouseInfo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

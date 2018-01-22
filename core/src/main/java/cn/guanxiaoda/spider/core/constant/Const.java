@@ -5,7 +5,7 @@ package cn.guanxiaoda.spider.core.constant;
  */
 public class Const {
 
-    public static final String KEY_FORMAT = "%s_%s_%s_%s";
+    public static final String KEY_FORMAT = "[Si]%s_[So]%s_[E]%s_[T]%s";
 
     public class Strings {
         public static final String EMPTY = "";

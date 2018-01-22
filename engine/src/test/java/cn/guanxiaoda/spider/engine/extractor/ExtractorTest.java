@@ -1,6 +1,6 @@
 package cn.guanxiaoda.spider.engine.extractor;
 
-import cn.guanxiaoda.spider.core.db.HouseInfo;
+import cn.guanxiaoda.spider.core.po.HouseInfo;
 import com.google.common.io.Files;
 import im.nll.data.extractor.Extractors;
 import org.junit.Before;

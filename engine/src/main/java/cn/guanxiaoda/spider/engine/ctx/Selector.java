@@ -50,7 +50,8 @@ public class Selector implements ApplicationContextAware {
     }
 
     public static IStorager selectStorager(int site, int source, int entity, int type) {
-        String name = String.format(Const.KEY_FORMAT, Site.valueOf(site).name(), Source.valueOf(source).name(), Entity.valueOf(entity).name(), Type.valueOf(type).name());
+//        String name = String.format(Const.KEY_FORMAT, Site.valueOf(site).name(), Source.valueOf(source).name(), Entity.valueOf(entity).name(), Type.valueOf(type).name());
+        String name = String.format(Const.KEY_FORMAT, "", "", Entity.valueOf(entity).name(), Type.valueOf(type).name());
         return storagerMap.get(name);
 
     }
@@ -110,7 +111,8 @@ public class Selector implements ApplicationContextAware {
         iStoragerMap.forEach((key, value) -> {
             if (value.getClass().isAnnotationPresent(Storager.class)) {
                 Storager anno = value.getClass().getAnnotation(Storager.class);
-                String name = String.format(Const.KEY_FORMAT, anno.site().name(), anno.source().name(), anno.entity().name(), anno.type().name());
+//                String name = String.format(Const.KEY_FORMAT, anno.site().name(), anno.source().name(), anno.entity().name(), anno.type().name());
+                String name = String.format(Const.KEY_FORMAT, "", "", anno.entity().name(), anno.type().name());
                 storagerMap.put(name, value);
             }
         });

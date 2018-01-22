@@ -1,6 +1,5 @@
 package cn.guanxiaoda.spider.engine.component;
 
-import cn.guanxiaoda.spider.core.db.HouseInfo;
 import cn.guanxiaoda.spider.core.enums.Status;
 import cn.guanxiaoda.spider.core.item.ParseResult;
 import cn.guanxiaoda.spider.core.item.Task;

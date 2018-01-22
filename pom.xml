@@ -41,6 +41,7 @@
         <version.fastjson>1.2.44</version.fastjson>
         <version.nll.extractor>0.9.6</version.nll.extractor>
         <version.guava>23.6-jre</version.guava>
+        <version.starter.redis>1.4.7.RELEASE</version.starter.redis>
     </properties>
     <dependencies>
         <dependency>

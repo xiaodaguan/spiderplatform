@@ -34,6 +34,13 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-redis</artifactId>
+            <version>${version.starter.redis}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
@@ -43,7 +50,6 @@
             <artifactId>core</artifactId>
         </dependency>
     </dependencies>
-
 
     <build>
         <plugins>

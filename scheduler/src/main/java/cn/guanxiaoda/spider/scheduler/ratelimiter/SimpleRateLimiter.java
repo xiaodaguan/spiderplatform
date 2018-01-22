@@ -1,4 +1,4 @@
-package cn.guanxiaoda.spider.engine.manager.ratelimiter;
+package cn.guanxiaoda.spider.scheduler.ratelimiter;
 
 /**
  * Created by guanxiaoda on 2018/1/17.

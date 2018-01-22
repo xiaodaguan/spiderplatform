@@ -1,4 +1,4 @@
-package cn.guanxiaoda.spider.core.db;
+package cn.guanxiaoda.spider.core.po;
 
 import lombok.Data;
 import org.nutz.dao.entity.annotation.Table;

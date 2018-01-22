@@ -16,8 +16,8 @@ import java.lang.annotation.*;
 @Component
 @Inherited
 public @interface Storager {
-    Site site();
-    Source source();
+//    Site site();
+//    Source source();
     Entity entity();
     Type type();
 }

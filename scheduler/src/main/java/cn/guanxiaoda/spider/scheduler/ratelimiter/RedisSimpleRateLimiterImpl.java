@@ -1,4 +1,4 @@
-package cn.guanxiaoda.spider.engine.manager.ratelimiter;
+package cn.guanxiaoda.spider.scheduler.ratelimiter;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by guanxiaoda on 2018/1/17.

@@ -1,7 +1,7 @@
 package cn.guanxiaoda.spider.engine.component.impl.parser;
 
 import cn.guanxiaoda.spider.core.constant.Const;
-import cn.guanxiaoda.spider.core.db.HouseInfo;
+import cn.guanxiaoda.spider.core.po.HouseInfo;
 import cn.guanxiaoda.spider.core.enums.Entity;
 import cn.guanxiaoda.spider.core.enums.Site;
 import cn.guanxiaoda.spider.core.enums.Source;

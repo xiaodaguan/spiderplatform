@@ -21,7 +21,7 @@ public class RedisSimpleRateLimiterImpl implements SimpleRateLimiter {
     @Autowired
     RedisTemplate<String, Long> longRedisTemplate;
 
-    @Value("${ratelimiter.key}")
+    @Value("${rate.key}")
     String redisKey = "redis_rl_key";
     @Autowired
     RedisScript<Long> redisScript;

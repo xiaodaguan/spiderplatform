@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by guanxiaoda on 2018/1/20.
  */
 @FeignClient("scheduler")
-//@Service(value = "taskManager")
+@Service(value = "taskManager")
 public interface ITaskManager {
 
 

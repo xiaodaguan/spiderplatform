@@ -2,6 +2,7 @@ package cn.guanxiaoda.spider.engine.service;
 
 import cn.guanxiaoda.spider.core.item.Task;
 import cn.guanxiaoda.spider.engine.manager.mq.MQManager;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
  * Created by guanxiaoda on 2018/1/11.
  */
 @Service
+@Slf4j
 public class CrawlerService {
 
 
@@ -21,9 +23,9 @@ public class CrawlerService {
     MQManager mqManager;
 
     public void handleTask(Task task) {
+        log.info("crawler received task: {}", task.getTaskId());
         mqManager.submitTask(fetcherListMq, task);
     }
-
 
 
 }

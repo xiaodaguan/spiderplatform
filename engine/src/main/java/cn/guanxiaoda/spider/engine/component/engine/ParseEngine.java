@@ -40,7 +40,7 @@ public class ParseEngine implements IEngine {
     MQManager mqManager;
 
     @Autowired
-//    @Qualifier("taskManager")
+    @Qualifier("taskManager")
     ITaskManager taskManager;
 
     @Autowired

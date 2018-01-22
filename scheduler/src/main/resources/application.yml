@@ -7,3 +7,9 @@ eureka:
 spring:
   application:
     name: scheduler
+
+rate:
+  path: scripts/rateLimiter.lua
+  key: redis_rate_limiter_key
+  lianjia:
+    mobile: 0.1

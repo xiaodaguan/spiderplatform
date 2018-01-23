@@ -37,6 +37,7 @@ public class HttpHandler {
 
     /**
      * 简易版
+     *
      * @param url GET url
      * @return response body
      */
@@ -87,7 +88,7 @@ public class HttpHandler {
             Map<String, String> resHeaders = Arrays.stream(response.getAllHeaders()).collect(Collectors.toMap(Header::getName, Header::getValue));
             fetchResult = new FetchResult(Status.SUCCESS, EntityUtils.toString(response.getEntity()), resHeaders);
         } catch (IOException e) {
-            log.error("http client execute failure.", e);
+            log.error("http client execute failure, url={}", url, e);
         } finally {
             if (response != null) {
                 try {

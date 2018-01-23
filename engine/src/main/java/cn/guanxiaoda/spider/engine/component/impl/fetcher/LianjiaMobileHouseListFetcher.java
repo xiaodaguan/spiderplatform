@@ -13,7 +13,7 @@ import cn.guanxiaoda.spider.engine.component.IFetcher;
 /**
  * Created by guanxiaoda on 2018/1/13.
  */
-@Fetcher(site = Site.LIANJIA, source = Source.MOBEL, entity = Entity.HOUSE, type = Type.DETAIL)
+@Fetcher(site = Site.LIANJIA, source = Source.MOBEL, entity = Entity.HOUSE, type = Type.LIST)
 public class LianjiaMobileHouseListFetcher extends BaseFetcher implements IFetcher {
 
 

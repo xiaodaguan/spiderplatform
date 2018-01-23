@@ -23,7 +23,6 @@ public class CrawlerService {
     MQManager mqManager;
 
     public void handleTask(Task task) {
-        log.info("crawler received task: {}", task.getTaskId());
         mqManager.submitTask(fetcherListMq, task);
     }
 

@@ -12,7 +12,5 @@ public class ItemTest {
 
     @Test
     public void test(){
-        Task t = new Task();
-        System.out.println(JSON.toJSONString(t));
     }
 }

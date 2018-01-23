@@ -7,7 +7,7 @@ import cn.guanxiaoda.spider.core.item.Task;
 import cn.guanxiaoda.spider.engine.component.IParser;
 import cn.guanxiaoda.spider.engine.ctx.Selector;
 import cn.guanxiaoda.spider.engine.manager.mq.MQManager;
-import cn.guanxiaoda.spider.engine.service.TaskService;
+import cn.guanxiaoda.spider.engine.service.SchedulerClient;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -18,7 +18,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.IntStream;
 
@@ -39,15 +38,13 @@ public class ParseEngine implements IEngine {
     @Autowired
     MQManager mqManager;
 
-//    @Autowired
-    TaskService taskService;
-
+    //    @Autowired
+    SchedulerClient schedulerClient;
 
 
     @Autowired
     @Qualifier("parserPool")
     ThreadPoolExecutor parserPool;
-    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     public void run() {
         log.info("Parse engine started.");
@@ -76,13 +73,12 @@ public class ParseEngine implements IEngine {
             /* transfer page tasks */
             if (Const.Strings.ONE.equals(task.getMeta().get(Const.TaskParams.PAGE_NUM)) && parseResult.getStatus() == Status.SUCCESS && parseResult.getTotalPage() > 1) {
                 IntStream.range(2, parseResult.getTotalPage() + 1).forEach(pageNum -> {
-                    Task newTask = new Task();
-                    BeanUtils.copyProperties(task, newTask, "taskId", "startTime", "fetchResult", "parseResult");
+                    Task newTask = new Task(task.getSite(), task.getSource(), task.getEntity(), task.getType());
+                    BeanUtils.copyProperties(task, newTask, "taskId", "startTime", "fetchResult", "parseResult", "site", "source", "entity", "type");
                     newTask.getMeta().put(Const.TaskParams.PAGE_NUM, String.valueOf(pageNum));
-                    newTask.setTaskId(String.format("%s-%s-%s-%s-%s-%d", LocalDateTime.now().format(dtf), task.getSite(), task.getSource(), task.getEntity(), task.getType(), pageNum));
                     newTask.setStartTime(LocalDateTime.now());
-
-                    taskService.sendTaskMsg(JSON.toJSONString(newTask));
+                    newTask.genTaskId();
+                    schedulerClient.sendTaskMsg(JSON.toJSONString(newTask));
                 });
             }
 

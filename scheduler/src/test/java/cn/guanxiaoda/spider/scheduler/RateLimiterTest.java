@@ -1,6 +1,6 @@
-package cn.guanxiaoda.spider.engine;
+package cn.guanxiaoda.spider.scheduler;
 
-import cn.guanxiaoda.spider.engine.manager.ratelimiter.RedisSimpleRateLimiterImpl;
+import cn.guanxiaoda.spider.scheduler.ratelimiter.RedisSimpleRateLimiterImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;

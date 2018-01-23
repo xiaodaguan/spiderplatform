@@ -7,7 +7,7 @@ import cn.guanxiaoda.spider.core.item.Task;
 import cn.guanxiaoda.spider.engine.component.IParser;
 import cn.guanxiaoda.spider.engine.ctx.Selector;
 import cn.guanxiaoda.spider.engine.manager.mq.MQManager;
-import cn.guanxiaoda.spider.engine.service.ITaskManager;
+import cn.guanxiaoda.spider.engine.service.TaskService;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -39,9 +39,10 @@ public class ParseEngine implements IEngine {
     @Autowired
     MQManager mqManager;
 
-    @Autowired
-    @Qualifier("taskManager")
-    ITaskManager taskManager;
+//    @Autowired
+    TaskService taskService;
+
+
 
     @Autowired
     @Qualifier("parserPool")
@@ -81,7 +82,7 @@ public class ParseEngine implements IEngine {
                     newTask.setTaskId(String.format("%s-%s-%s-%s-%s-%d", LocalDateTime.now().format(dtf), task.getSite(), task.getSource(), task.getEntity(), task.getType(), pageNum));
                     newTask.setStartTime(LocalDateTime.now());
 
-                    taskManager.sendTaskMsg(JSON.toJSONString(newTask));
+                    taskService.sendTaskMsg(JSON.toJSONString(newTask));
                 });
             }
 

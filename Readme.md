@@ -4,12 +4,15 @@
 
 - service register ![Progress](http://progressed.io/bar/99)   
 
-- config center ![Progress](http://progressed.io/bar/1?title=init)   
-- service ![Progress](http://progressed.io/bar/10?title=framework) 
-    - provider ![Progress](http://progressed.io/bar/35?title=ing...)
+- config center ![Progress](http://progressed.io/bar/1?)   
+- service ![Progress](http://progressed.io/bar/75?) 
+    - scheduler ![Progress](http://progressed.io/bar/70?)
+    - engine ![Progress](http://progressed.io/bar/80?)   
+        - fetch ![Progress](http://progressed.io/bar/100?)   
+        - parse ![Progress](http://progressed.io/bar/50?)   
+        - sotrage ![Progress](http://progressed.io/bar/0?)   
     
-    - consumer ![Progress](http://progressed.io/bar/75?title=init)   
-    
+
 
 ### 架构
 ![图呢](z-resources/imgs/我是图.png)
@@ -17,18 +20,21 @@
 ### 约定
 
 #### api
-scheduler:
-```
-controller接收任务: /scheduler/receive
--> service: /crawler/receive
+
+scheduler& engine
+``` 
+scheduler: /receive?taskJson={TASKJSON} 
+-> engine
+
+
+engine: /receive?taskJson={TASKJSON} 
+-> process
+
+-> following tasks: /submit?taskJson={TASKJSON} 
+-> scheduler
+...
 
 ```
-
-engine:
-```
-controller接收任务: /crawler/receive
-```
-
 
 #### task
 

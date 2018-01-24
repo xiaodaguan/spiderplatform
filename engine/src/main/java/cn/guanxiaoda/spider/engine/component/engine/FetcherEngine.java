@@ -56,6 +56,7 @@ public class FetcherEngine implements IEngine {
 
                 continue;
             }
+
             // select processer
             IFetcher fetcher = Selector.selectFetcher(task.getSite(), task.getSource(), task.getEntity(), task.getType());
             // process

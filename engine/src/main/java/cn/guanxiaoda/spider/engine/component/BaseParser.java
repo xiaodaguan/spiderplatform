@@ -18,11 +18,10 @@ public abstract class BaseParser<T> implements IParser {
 
     @Override
     public ParseResult process(Task task) {
-        Extractors extractors = Extractors.on(task.getFetchResult().getContent());
-        return new ParseResult(extractList(extractors), extractTotal(extractors), Status.SUCCESS);
+        return new ParseResult(extractList(task.getFetchResult().getContent()), extractTotal(task.getFetchResult().getContent()), Status.SUCCESS);
     }
 
-    protected abstract int extractTotal(Extractors extractors);
+    protected abstract int extractTotal(String content);
 
-    protected abstract List<T> extractList(Extractors extractors);
+    protected abstract List<T> extractList(String content);
 }

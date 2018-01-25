@@ -20,11 +20,11 @@ public class ThreadPoolConf {
 
 
     @Value("${thread.fetcher}")
-    int fetcherThread = 1;
+    int fetcherThread = 10;
     @Value("${thread.parser}")
-    int parserThread = 1;
+    int parserThread = 10;
     @Value("${thread.storager}")
-    int storagerThread = 1;
+    int storagerThread = 10;
 
 
     @Bean(name = "fetcherPool")

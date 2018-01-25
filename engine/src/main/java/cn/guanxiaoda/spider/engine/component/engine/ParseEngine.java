@@ -68,7 +68,12 @@ public class ParseEngine implements IEngine {
             // select processer
             IParser parser = Selector.selectParser(task.getSite(), task.getSource(), task.getEntity(), task.getType());
             // process
-            ParseResult parseResult = parser.process(task);
+            ParseResult parseResult = null;
+            try {
+                parseResult = parser.process(task);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             task.setParseResult(parseResult);
             /* transfer page tasks */
             if (Const.Strings.ONE.equals(task.getMeta().get(Const.TaskParams.PAGE_NUM)) && parseResult.getStatus() == Status.SUCCESS && parseResult.getTotalPage() > 1) {

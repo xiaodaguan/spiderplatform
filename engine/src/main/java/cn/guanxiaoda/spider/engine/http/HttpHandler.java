@@ -21,9 +21,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -85,9 +83,9 @@ public class HttpHandler {
         FetchResult fetchResult = new FetchResult(Status.FAILURE, null, null);
         try {
             response = client.execute(request);
-            Map<String, String> resHeaders = Arrays.stream(response.getAllHeaders()).collect(Collectors.toMap(Header::getName, Header::getValue));
+            Header[] resHeaders = response.getAllHeaders();
             fetchResult = new FetchResult(Status.SUCCESS, EntityUtils.toString(response.getEntity()), resHeaders);
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("http client execute failure, url={}", url, e);
         } finally {
             if (response != null) {

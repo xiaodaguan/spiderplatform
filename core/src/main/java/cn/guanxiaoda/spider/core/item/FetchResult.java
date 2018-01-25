@@ -3,9 +3,7 @@ package cn.guanxiaoda.spider.core.item;
 import cn.guanxiaoda.spider.core.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.apache.http.Header;
 
 /**
  * 不允许空值
@@ -17,5 +15,5 @@ public class FetchResult {
 
     Status status;
     String content;
-    Map<String, String> resHeaders = new HashMap<>();
+    Header[] resHeaders;
 }

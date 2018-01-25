@@ -27,7 +27,11 @@
             <version>${version.jackson}</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${version.apachehc}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.alibaba</groupId>

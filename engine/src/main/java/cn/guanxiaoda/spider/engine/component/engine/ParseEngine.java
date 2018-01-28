@@ -5,9 +5,9 @@ import cn.guanxiaoda.spider.core.enums.Status;
 import cn.guanxiaoda.spider.core.item.ParseResult;
 import cn.guanxiaoda.spider.core.item.Task;
 import cn.guanxiaoda.spider.engine.component.IParser;
+import cn.guanxiaoda.spider.engine.controller.CrawlerController;
 import cn.guanxiaoda.spider.engine.ctx.Selector;
 import cn.guanxiaoda.spider.engine.manager.mq.MQManager;
-import cn.guanxiaoda.spider.engine.service.SchedulerClient;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -39,8 +39,7 @@ public class ParseEngine implements IEngine {
     MQManager mqManager;
 
     @Autowired
-    SchedulerClient schedulerClient;
-
+    CrawlerController crawlerController;
 
     @Autowired
     @Qualifier("parserPool")
@@ -103,7 +102,8 @@ public class ParseEngine implements IEngine {
                 newTask.getMeta().put(Const.TaskParams.PAGE_NUM, String.valueOf(pageNum));
                 newTask.setStartTime(LocalDateTime.now());
                 newTask.genTaskId();
-                schedulerClient.sendTaskMsg(JSON.toJSONString(newTask));
+//                schedulerClient.sendTaskMsg(JSON.toJSONString(newTask));
+                crawlerController.submitTaskMsg(JSON.toJSONString(newTask));
             });
         }
     }

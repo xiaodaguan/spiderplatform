@@ -1,0 +1,38 @@
+buildscript {
+    ext {
+        springBootVersion = '1.5.9.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+
+allprojects {
+    apply plugin: 'maven'
+
+    group = 'cn.guanxiaoda.spider'
+    version = '1.0-SNAPSHOT'
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    }
+}
+
+
+
+
+
+subprojects {
+    apply plugin: 'java'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+
+}

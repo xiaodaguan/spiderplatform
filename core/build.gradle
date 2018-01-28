@@ -1,0 +1,11 @@
+description = ''
+dependencies {
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.3'
+    compile(group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.4') {
+        exclude(module: 'commons-logging')
+    }
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.2.44'
+    compile group: 'org.nutz', name: 'nutz', version: '1.r.63.r5'
+    compile group: 'com.google.guava', name: 'guava', version: '23.6-jre'
+}

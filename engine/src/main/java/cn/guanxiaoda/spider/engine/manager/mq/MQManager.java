@@ -40,7 +40,7 @@ public class MQManager {
             }
             try {
                 task = JSON.parseObject(msg, Task.class);
-                log.info("receive task success, taskId={}", task.getTaskId());
+                log.info("{} receive task success, taskId={}", this.getClass().getSimpleName(), task.getTaskId());
                 return task;
             } catch (Exception e) {
                 log.error("receive task failure, msg={}", msg, e);

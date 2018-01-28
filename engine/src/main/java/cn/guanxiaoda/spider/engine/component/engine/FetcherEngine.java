@@ -6,6 +6,7 @@ import cn.guanxiaoda.spider.core.item.Task;
 import cn.guanxiaoda.spider.engine.component.IFetcher;
 import cn.guanxiaoda.spider.engine.ctx.Selector;
 import cn.guanxiaoda.spider.engine.manager.mq.MQManager;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -53,17 +54,23 @@ public class FetcherEngine implements IEngine {
             }
             Task task = mqManager.receiveTask(mqFrom);
             if (task == null) {
-
                 continue;
             }
+            log.info("{} receive task success, taskId={}", this.getClass().getSimpleName(), task.getTaskId());
 
             // select processer
             IFetcher fetcher = Selector.selectFetcher(task.getSite(), task.getSource(), task.getEntity(), task.getType());
             // process
-            FetchResult fetchResult = fetcher.process(task);
+            FetchResult fetchResult = null;
+            try {
+                fetchResult = fetcher.process(task);
+            } catch (Exception e) {
+                log.error("{} process exception", this.getClass().getSimpleName(), e);
+            }
             task.setFetchResult(fetchResult);
             // post process
             if (fetchResult != null && fetchResult.getStatus() == Status.SUCCESS) {
+                log.info("fetch success, send task: {}", task.getTaskId());
                 mqManager.submitTask(mqTo, task);
             } else {
                 // retry

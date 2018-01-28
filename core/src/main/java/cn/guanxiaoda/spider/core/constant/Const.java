@@ -14,7 +14,7 @@ public class Const {
     }
 
     public class Numbers {
-        public static final int MINITE = 60;
+        public static final int SECONDS_IN_MINUTE = 60;
     }
 
     public class Seps {

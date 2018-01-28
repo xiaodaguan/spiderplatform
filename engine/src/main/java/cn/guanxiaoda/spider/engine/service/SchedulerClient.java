@@ -14,3 +14,10 @@ public interface SchedulerClient {
     void sendTaskMsg(@RequestParam(value = "taskJson") String taskJson);
 
 }
+
+//@FeignClient(value = "crawlerengine")
+//public interface CrawlerEngineClient {
+//
+//    @RequestMapping(value = "/receive")
+//    void submitTask(@RequestParam(value = "taskJson") String taskJson);
+//}

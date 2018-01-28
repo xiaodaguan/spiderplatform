@@ -1,0 +1,17 @@
+description = 'engine'
+dependencies {
+
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-eureka', version: '1.4.2.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-feign', version: '1.4.2.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '1.5.9.RELEASE'
+
+    compile project(':core')
+    compile(group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.4') {
+        exclude(module: 'commons-logging')
+    }
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.8-dmr'
+    compile group: 'im.nll.data', name: 'extractor', version: '0.9.6'
+    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.9.RELEASE') {
+        exclude(module: 'json-path')
+    }
+}

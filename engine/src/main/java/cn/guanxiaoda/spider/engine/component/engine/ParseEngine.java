@@ -38,7 +38,7 @@ public class ParseEngine implements IEngine {
     @Autowired
     MQManager mqManager;
 
-    //    @Autowired
+    @Autowired
     SchedulerClient schedulerClient;
 
 
@@ -65,6 +65,7 @@ public class ParseEngine implements IEngine {
             if (task == null) {
                 continue;
             }
+            log.info("{} receive task success, taskId={}", this.getClass().getSimpleName(), task.getTaskId());
             // select processer
             IParser parser = Selector.selectParser(task.getSite(), task.getSource(), task.getEntity(), task.getType());
             // process
@@ -72,27 +73,38 @@ public class ParseEngine implements IEngine {
             try {
                 parseResult = parser.process(task);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("{} process exception", this.getClass().getSimpleName(), e);
             }
             task.setParseResult(parseResult);
-            /* transfer page tasks */
-            if (Const.Strings.ONE.equals(task.getMeta().get(Const.TaskParams.PAGE_NUM)) && parseResult.getStatus() == Status.SUCCESS && parseResult.getTotalPage() > 1) {
-                IntStream.range(2, parseResult.getTotalPage() + 1).forEach(pageNum -> {
-                    Task newTask = new Task(task.getSite(), task.getSource(), task.getEntity(), task.getType());
-                    BeanUtils.copyProperties(task, newTask, "taskId", "startTime", "fetchResult", "parseResult", "site", "source", "entity", "type");
-                    newTask.getMeta().put(Const.TaskParams.PAGE_NUM, String.valueOf(pageNum));
-                    newTask.setStartTime(LocalDateTime.now());
-                    newTask.genTaskId();
-                    schedulerClient.sendTaskMsg(JSON.toJSONString(newTask));
-                });
+            try {
+                transfer(task);
+            } catch (Exception e) {
+                log.error("{} transfer exception", this.getClass().getSimpleName(), e);
             }
+
 
             // post process
             if (parseResult != null && parseResult.getStatus() == Status.SUCCESS) {
+                log.info("parse success, send task: {}", task.getTaskId());
                 mqManager.submitTask(mqTo, task);
             } else {
                 log.error("parse failed, taskId={}", task.getTaskId());
             }
+        }
+    }
+
+    private void transfer(Task task) {
+        ParseResult parseResult = task.getParseResult();
+        /* transfer page tasks */
+        if (Const.Strings.ONE.equals(task.getMeta().get(Const.TaskParams.PAGE_NUM)) && parseResult.getStatus() == Status.SUCCESS && parseResult.getTotalPage() > 1) {
+            IntStream.range(2, parseResult.getTotalPage() + 1).forEach(pageNum -> {
+                Task newTask = new Task(task.getSite(), task.getSource(), task.getEntity(), task.getType());
+                BeanUtils.copyProperties(task, newTask, "taskId", "startTime", "fetchResult", "parseResult", "site", "source", "entity", "type");
+                newTask.getMeta().put(Const.TaskParams.PAGE_NUM, String.valueOf(pageNum));
+                newTask.setStartTime(LocalDateTime.now());
+                newTask.genTaskId();
+                schedulerClient.sendTaskMsg(JSON.toJSONString(newTask));
+            });
         }
     }
 }

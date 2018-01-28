@@ -1,0 +1,12 @@
+rootProject.name = 'spider-platform'
+include ':core'
+include ':app-server'
+include ':conf-center'
+include ':engine'
+include ':scheduler'
+
+project(':core').projectDir = "$rootDir/core" as File
+project(':app-server').projectDir = "$rootDir/app-server" as File
+project(':conf-center').projectDir = "$rootDir/conf-center" as File
+project(':engine').projectDir = "$rootDir/engine" as File
+project(':scheduler').projectDir = "$rootDir/scheduler" as File

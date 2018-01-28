@@ -51,13 +51,18 @@ public class StoragerEngine implements IEngine {
             }
             Task task = mqManager.receiveTask(mqFrom);
             if (task == null) {
-
                 continue;
             }
+            log.info("{} receive task success, taskId={}", this.getClass().getSimpleName(), task.getTaskId());
             // select processer
             IStorager storager = Selector.selectStorager(task.getSite(), task.getSource(), task.getEntity(), task.getType());
             // process
-            boolean storageStatus = storager.processer(task);
+            boolean storageStatus = false;
+            try {
+                storageStatus = storager.processer(task);
+            } catch (Exception e) {
+                log.error("{} process exception", this.getClass().getSimpleName(), e);
+            }
             if (storageStatus) {
                 task.setEndTime(LocalDateTime.now());
                 log.info("task[{}] succeed.", task.getTaskId());

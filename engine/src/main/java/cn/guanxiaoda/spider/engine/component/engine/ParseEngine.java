@@ -97,13 +97,17 @@ public class ParseEngine implements IEngine {
         /* transfer page tasks */
         if (Const.Strings.ONE.equals(task.getMeta().get(Const.TaskParams.PAGE_NUM)) && parseResult.getStatus() == Status.SUCCESS && parseResult.getTotalPage() > 1) {
             IntStream.range(2, parseResult.getTotalPage() + 1).forEach(pageNum -> {
-                Task newTask = new Task(task.getSite(), task.getSource(), task.getEntity(), task.getType());
-                BeanUtils.copyProperties(task, newTask, "taskId", "startTime", "fetchResult", "parseResult", "site", "source", "entity", "type");
-                newTask.getMeta().put(Const.TaskParams.PAGE_NUM, String.valueOf(pageNum));
-                newTask.setStartTime(LocalDateTime.now());
-                newTask.genTaskId();
+                try {
+                    Task newTask = new Task(task.getSite(), task.getSource(), task.getEntity(), task.getType());
+                    BeanUtils.copyProperties(task, newTask, "taskId", "startTime", "fetchResult", "parseResult", "site", "source", "entity", "type");
+                    newTask.getMeta().put(Const.TaskParams.PAGE_NUM, String.valueOf(pageNum));
+                    newTask.setStartTime(LocalDateTime.now());
+                    newTask.genTaskId();
 //                schedulerClient.sendTaskMsg(JSON.toJSONString(newTask));
-                crawlerController.submitTaskMsg(JSON.toJSONString(newTask));
+                    crawlerController.submitTaskMsg(JSON.toJSONString(newTask));
+                } catch (Exception e) {
+                    log.warn("{} create&submit following page task failure, task={}", this.getClass().getSimpleName(), task.getTaskId(), e);
+                }
             });
         }
     }

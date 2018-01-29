@@ -13,28 +13,11 @@ import java.util.List;
  * Created by guanxiaoda on 2018/1/20.
  */
 @Slf4j
-public class BaseStorager<T> implements IStorager {
+public abstract class BaseStorager<T> implements IStorager {
 
     @Autowired
-    NutDao dao;
+    protected NutDao dao;
 
     @Override
-    public boolean processer(Task task) {
-        dao.create(Entity.valueOf(task.getEntity()).getEntityClass(), false);
-        ParseResult parseResult = task.getParseResult();
-
-        ((List<T>) parseResult.getParseResult()).stream().forEach(
-                houseInfo -> {
-                    try {
-                        dao.insertOrUpdate(houseInfo);
-                    } catch (Exception e) {
-                        log.error("{} insert or update DB failure.");
-                    }
-                }
-        );
-
-
-        return true;
-
-    }
+    public abstract boolean processer(Task task) ;
 }

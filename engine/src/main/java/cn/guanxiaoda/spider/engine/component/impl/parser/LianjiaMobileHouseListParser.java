@@ -10,6 +10,7 @@ import cn.guanxiaoda.spider.engine.annotation.Parser;
 import cn.guanxiaoda.spider.engine.component.BaseParser;
 import cn.guanxiaoda.spider.engine.component.IParser;
 import im.nll.data.extractor.Extractors;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
  * Created by guanxiaoda on 2018/1/18.
  */
 @Parser(site = Site.LIANJIA, source = Source.MOBEL, entity = Entity.HOUSE, type = Type.LIST)
+@Slf4j
 public class LianjiaMobileHouseListParser extends BaseParser<HouseInfo> implements IParser {
 
 
@@ -25,6 +27,7 @@ public class LianjiaMobileHouseListParser extends BaseParser<HouseInfo> implemen
         String totalStr = Extractors.on(content).extract(Extractors.selector("div.mod_cont>ul.lists.attr(data-info)")).asString();
         if (totalStr != null && totalStr.contains(Const.Seps.EQUAL)) {
             String totalNumStr = totalStr.substring(totalStr.lastIndexOf(Const.Seps.EQUAL) + 1);
+            log.info("{} total number: {}", this.getClass().getSimpleName(), totalNumStr);
             return Integer.valueOf(totalNumStr) / 30;
         }
         return 0;

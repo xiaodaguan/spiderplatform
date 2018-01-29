@@ -8,9 +8,9 @@ import cn.guanxiaoda.spider.core.po.HouseInfo;
 import cn.guanxiaoda.spider.engine.annotation.Storager;
 import cn.guanxiaoda.spider.engine.component.BaseStorager;
 import cn.guanxiaoda.spider.engine.component.IStorager;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import lombok.extern.slf4j.Slf4j;
-import org.nutz.dao.impl.NutDao;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -19,7 +19,28 @@ import java.util.List;
  */
 @Storager(entity = Entity.HOUSE, type = Type.LIST)
 @Slf4j
-public class LianjiaMobileHouseListStorager extends BaseStorager implements IStorager {
+public class LianjiaMobileHouseListStorager extends BaseStorager<HouseInfo> implements IStorager {
 
 
+    @Override
+    public boolean processer(Task task) {
+        dao.create(Entity.valueOf(task.getEntity()).getEntityClass(), false);
+        ParseResult<HouseInfo> parseResult = task.getParseResult();
+
+        List<HouseInfo> houseList = JSON.parseObject(String.valueOf(task.getParseResult().getData()), new TypeReference<List<HouseInfo>>() {});
+
+        houseList.stream().forEach(
+                houseInfo -> {
+                    try {
+                        dao.insertOrUpdate(houseInfo);
+                    } catch (Exception e) {
+                        log.error("{} insert or update DB failure.", e);
+                    }
+                }
+        );
+
+
+        return true;
+
+    }
 }

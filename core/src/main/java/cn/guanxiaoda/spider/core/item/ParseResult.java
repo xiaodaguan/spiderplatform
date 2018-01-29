@@ -11,7 +11,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class ParseResult<T> {
 
-    T parseResult;
+    T data;
     int totalPage;
     private Status status;
 }

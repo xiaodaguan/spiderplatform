@@ -13,3 +13,6 @@ rate:
   key: redis_rate_limiter_key
   lianjia:
     mobile: 0.1
+
+logging:
+  file: logs/scheduler.log

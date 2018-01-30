@@ -18,6 +18,6 @@ public class ThreadPoolConf {
     @Bean(name = "schedulerPool")
     ThreadPoolExecutor schedulerPool() {
         ThreadFactory namedFactory = new ThreadFactoryBuilder().setNameFormat("SCHEDULER-POOL-%d").build();
-        return new ThreadPoolExecutor(1, 1, 0L, TimeUnit.SECONDS, new LinkedBlockingDeque<>(Integer.MAX_VALUE), namedFactory);
+        return new ThreadPoolExecutor(100, 100, 0L, TimeUnit.SECONDS, new LinkedBlockingDeque<>(Integer.MAX_VALUE), namedFactory);
     }
 }

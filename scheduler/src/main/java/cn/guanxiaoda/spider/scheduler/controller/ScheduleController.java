@@ -37,6 +37,10 @@ public class ScheduleController {
     public void receiveTaskJson(@RequestParam String taskJson) {
         log.info("scheduler receive task: {}", taskJson);
         Task task = JSON.parseObject(taskJson, Task.class);
+        queue.submit(() -> queue(taskJson, task));
+    }
+
+    private void queue(@RequestParam String taskJson, Task task) {
         // todo qps config
         while (!rateLimiter.acquire(task.getSite() + Const.Seps.COLON + task.getSource(), 0.1)) {
         }

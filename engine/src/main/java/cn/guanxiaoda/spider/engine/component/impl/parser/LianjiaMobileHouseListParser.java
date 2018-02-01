@@ -39,6 +39,7 @@ public class LianjiaMobileHouseListParser extends BaseParser<HouseInfo> implemen
     protected List<HouseInfo> extractList(String content) {
         return Extractors.on(content)
                 .split(Extractors.selector("div.mod_cont>ul.lists>li.pictext.html"))
+                .extract("itemId", Extractors.selector("a.attr(href)"))
                 .extract("name", Extractors.selector("div.flexbox>div.item_list>div.item_main"))
                 .extract("price", Extractors.selector("div.flexbox>div.item_list>div.item_minor>span.price_total>em"))
                 .extract("unitPrice", Extractors.selector("div.flexbox>div.item_list>div.item_minor>span.unit_price.text"))

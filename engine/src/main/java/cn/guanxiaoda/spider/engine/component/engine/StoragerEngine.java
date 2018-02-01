@@ -59,7 +59,7 @@ public class StoragerEngine implements IEngine {
             // process
             boolean storageStatus = false;
             try {
-                storageStatus = storager.processer(task);
+                storageStatus = storager.processe(task);
             } catch (Exception e) {
                 log.error("{} process exception", this.getClass().getSimpleName(), e);
             }

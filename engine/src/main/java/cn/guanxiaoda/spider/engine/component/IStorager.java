@@ -8,5 +8,5 @@ import cn.guanxiaoda.spider.core.item.Task;
  */
 public interface IStorager {
 
-    boolean processer(Task task);
+    boolean processe(Task task);
 }

@@ -14,5 +14,10 @@ rate:
   lianjia:
     mobile: 0.1
 
+mysql:
+  url: jdbc:mysql://127.0.0.1/spider_db?characterEncoding=utf8
+  user: root
+  pwd:
+
 logging:
   file: logs/scheduler.log

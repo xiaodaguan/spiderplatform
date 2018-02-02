@@ -45,6 +45,12 @@ engine: /receive?taskJson={TASKJSON}
 ```
 
 
+|name|site|source|entity|type|
+|----|----|------|------|----|
+|LjMobileHouseList|1|2|1|1|
+|LjMobileHouseDetail|1|2|1|2|
+
+
 
 ### host&ports
 

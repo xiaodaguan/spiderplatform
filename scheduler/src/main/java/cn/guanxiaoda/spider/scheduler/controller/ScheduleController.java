@@ -2,7 +2,9 @@ package cn.guanxiaoda.spider.scheduler.controller;
 
 import cn.guanxiaoda.spider.core.constant.Const;
 import cn.guanxiaoda.spider.core.item.Task;
+import cn.guanxiaoda.spider.scheduler.ctx.Selector;
 import cn.guanxiaoda.spider.scheduler.ratelimiter.RedisSimpleRateLimiterImpl;
+import cn.guanxiaoda.spider.scheduler.seed.ITaskGenerator;
 import cn.guanxiaoda.spider.scheduler.service.CrawlerEngineClient;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -37,14 +39,20 @@ public class ScheduleController {
     public void receiveTaskJson(@RequestParam String taskJson) {
         log.info("scheduler receive task: {}", taskJson);
         Task task = JSON.parseObject(taskJson, Task.class);
-        queue.submit(() -> queue(taskJson, task));
+        queue.submit(() -> queue(task));
     }
 
-    private void queue(@RequestParam String taskJson, Task task) {
+    private void queue(@RequestParam Task task) {
         // todo qps config
         while (!rateLimiter.acquire(task.getSite() + Const.Seps.COLON + task.getSource(), 0.1)) {
         }
-        crawlerEngineClient.submitTask(taskJson);
+        crawlerEngineClient.submitTask(JSON.toJSONString(task));
+    }
+
+    @RequestMapping(value = "/schedule")
+    public void scheduleTasks(@RequestParam int site, @RequestParam int source, @RequestParam int entity, @RequestParam int type) {
+        ITaskGenerator generator = Selector.selectTaskGenerator(site, source, entity, type);
+        generator.getTaskListFromDB(site, source, entity, type).parallelStream().forEach(this::queue);
     }
 
 }

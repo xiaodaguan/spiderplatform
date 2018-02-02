@@ -4,6 +4,7 @@ dependencies {
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-feign', version: '1.4.2.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '1.5.9.RELEASE'
     compile project(':core')
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.8-dmr'
     testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.9.RELEASE') {
         exclude(module: 'commons-logging')
     }

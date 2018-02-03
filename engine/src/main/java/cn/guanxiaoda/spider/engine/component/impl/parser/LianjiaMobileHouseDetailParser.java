@@ -1,6 +1,5 @@
 package cn.guanxiaoda.spider.engine.component.impl.parser;
 
-import cn.guanxiaoda.spider.core.constant.Const;
 import cn.guanxiaoda.spider.core.enums.Entity;
 import cn.guanxiaoda.spider.core.enums.Site;
 import cn.guanxiaoda.spider.core.enums.Source;
@@ -23,28 +22,25 @@ public class LianjiaMobileHouseDetailParser extends BaseParser<HouseInfo> implem
 
 
     @Override
-    protected int extractTotal(String content) {
-        String totalStr = Extractors.on(content).extract(Extractors.selector("div.mod_cont>ul.lists.attr(data-info)")).asString();
-        if (totalStr != null && totalStr.contains(Const.Seps.EQUAL)) {
-            String totalNumStr = totalStr.substring(totalStr.lastIndexOf(Const.Seps.EQUAL) + 1);
-            log.info("{} total number: {}", this.getClass().getSimpleName(), totalNumStr);
-            return Integer.valueOf(totalNumStr) / 30;
-        }
-        return 0;
-    }
+    protected int extractTotal(String content) {return 0;}
 
-    //  <div class="mod_cont">
-//                <ul class="lists" data-mark="list_container" data-info="total=28696">
     @Override
-    protected List<HouseInfo> extractList(String content) {
+    protected List<HouseInfo> extractList(String content) {return null;}
+
+    @Override
+    protected HouseInfo extractSingle(String content) {
         return Extractors.on(content)
-                .split(Extractors.selector("div.mod_cont>ul.lists>li.pictext.html"))
-                .extract("itemId", Extractors.selector("a.attr(href)"))
-                .extract("name", Extractors.selector("div.flexbox>div.item_list>div.item_main"))
-                .extract("price", Extractors.selector("div.flexbox>div.item_list>div.item_minor>span.price_total>em"))
-                .extract("unitPrice", Extractors.selector("div.flexbox>div.item_list>div.item_minor>span.unit_price.text"))
-                .extract("tags", Extractors.selector("div.flexbox>div.item_list>div.tag_box>span"))
-                .asBeanList(HouseInfo.class);
+                .extract("price", Extractors.selector("div.similar_data_detail:nth-child(1)>p.red"))
+                .extract("houseType", Extractors.selector("div.similar_data_detail:nth-child(2)>p.red"))
+                .extract("area", Extractors.selector("div.similar_data_detail:nth-child(3)>p.red"))
+                .extract("unitPrice", Extractors.selector("ul.house_description>li:contains(单价)"))
+                .extract("buildType", Extractors.selector("ul.house_description>li:contains(楼型)"))
+                .extract("orientation", Extractors.selector("ul.house_description>li:contains(朝向)"))
+                .extract("elevator", Extractors.selector("ul.house_description>li:contains(电梯)"))
+                .extract("floor", Extractors.selector("ul.house_description>li:contains(楼层)"))
+                .extract("buildYear", Extractors.selector("ul.house_description>li:contains(年代)"))
+                .extract("purpose", Extractors.selector("ul.house_description>li:contains(用途)"))
+                .asBean(HouseInfo.class);
     }
 
 }

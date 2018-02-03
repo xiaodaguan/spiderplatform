@@ -36,6 +36,9 @@ public class HouseInfo extends BaseEntity {
     @Column("floor")
     private String floor;
 
+    @Column("elevator")
+    private String elevator;
+
     @Column("area")
     private String area;
 

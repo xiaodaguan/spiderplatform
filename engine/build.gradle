@@ -10,7 +10,10 @@ dependencies {
         exclude(module: 'commons-logging')
     }
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.8-dmr'
-    compile group: 'im.nll.data', name: 'extractor', version: '0.9.6'
+    compile (group: 'im.nll.data', name: 'extractor', version: '0.9.6'){
+        exclude(module: 'jsoup')
+    }
+    compile 'org.jsoup:jsoup:1.11.2'
     testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.9.RELEASE') {
         exclude(module: 'json-path')
     }

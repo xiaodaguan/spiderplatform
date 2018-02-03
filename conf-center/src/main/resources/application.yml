@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: confserver
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/xiaodaguan/spiderplatform
+          search-paths: conf-center/src/main/resources
+          username:
+          password:
+          default-label: master
+server:
+  port: 8800

@@ -4,13 +4,13 @@
 
 - service register ![Progress](http://progressed.io/bar/99)   
 
-- config center ![Progress](http://progressed.io/bar/1?)   
-- service ![Progress](http://progressed.io/bar/75?) 
-    - scheduler ![Progress](http://progressed.io/bar/70?)
-    - engine ![Progress](http://progressed.io/bar/80?)   
+- config center ![Progress](http://progressed.io/bar/10?)   
+- service ![Progress](http://progressed.io/bar/100?) 
+    - scheduler ![Progress](http://progressed.io/bar/100?)
+    - engine ![Progress](http://progressed.io/bar/100?)   
         - fetch ![Progress](http://progressed.io/bar/100?)   
-        - parse ![Progress](http://progressed.io/bar/50?)   
-        - sotrage ![Progress](http://progressed.io/bar/0?)   
+        - parse ![Progress](http://progressed.io/bar/100?)   
+        - sotrage ![Progress](http://progressed.io/bar/100?)   
     
 
 
@@ -58,3 +58,4 @@ engine: /receive?taskJson={TASKJSON}
     - 8100: register center
     - 820x: service provider: crawler engine
     - 830x: service consumer: scheduler
+    - 880x: config server

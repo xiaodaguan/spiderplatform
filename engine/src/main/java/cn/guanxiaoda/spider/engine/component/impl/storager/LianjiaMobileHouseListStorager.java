@@ -13,7 +13,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +28,7 @@ public class LianjiaMobileHouseListStorager extends BaseStorager<HouseInfo> impl
     @Override
     protected List<HouseInfo> clean(List<HouseInfo> items) {
         return items.parallelStream().peek(item -> {
-            item.setUpdateTime(LocalDateTime.now());
+            item.setUpdateTime(new Date());
             item.setSite(Site.LIANJIA.ordinal());
             item.setSource(Source.MOBEL.ordinal());
         }).collect(Collectors.toList());

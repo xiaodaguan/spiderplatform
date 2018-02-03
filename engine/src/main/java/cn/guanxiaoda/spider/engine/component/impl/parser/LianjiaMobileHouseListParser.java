@@ -43,8 +43,13 @@ public class LianjiaMobileHouseListParser extends BaseParser<HouseInfo> implemen
                 .extract("name", Extractors.selector("div.flexbox>div.item_list>div.item_main"))
                 .extract("price", Extractors.selector("div.flexbox>div.item_list>div.item_minor>span.price_total>em"))
                 .extract("unitPrice", Extractors.selector("div.flexbox>div.item_list>div.item_minor>span.unit_price.text"))
-                .extract("tags", Extractors.selector("div.flexbox>div.item_list>div.tag_box>span"))
+                .extract("tags", Extractors.selectorh("div.flexbox>div.item_list>div.tag_box.text"))
                 .asBeanList(HouseInfo.class);
+    }
+
+    @Override
+    protected HouseInfo extractSingle(String content) {
+        return null;
     }
 
 }

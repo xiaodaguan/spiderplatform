@@ -3,7 +3,7 @@ package cn.guanxiaoda.spider.core.po;
 import lombok.Data;
 import org.nutz.dao.entity.annotation.Column;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Created by guanxiaoda on 2018/1/16.
@@ -18,8 +18,8 @@ public class BaseEntity {
     private Integer source;
 
     @Column("create_time")
-    private LocalDateTime createTime;
+    private Date createTime;
 
     @Column("update_time")
-    private LocalDateTime updateTime;
+    private Date updateTime;
 }

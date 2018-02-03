@@ -68,19 +68,14 @@ public class ParseEngine implements IEngine {
             // select processer
             IParser parser = Selector.selectParser(task.getSite(), task.getSource(), task.getEntity(), task.getType());
             // process
-            ParseResult parseResult = null;
-            try {
-                parseResult = parser.process(task);
-            } catch (Exception e) {
-                log.error("{} process exception", this.getClass().getSimpleName(), e);
-            }
+            ParseResult parseResult = parser.process(task);
             task.setParseResult(parseResult);
-            try {
-                transfer(task);
-            } catch (Exception e) {
-                log.error("{} transfer exception", this.getClass().getSimpleName(), e);
-            }
 
+            try {
+                gennerateAndSendFollowingPageTasks(task);
+            } catch (Exception e) {
+                log.error("{} gennerateAndSendFollowingPageTasks exception", this.getClass().getSimpleName(), e);
+            }
 
             // post process
             if (parseResult != null && parseResult.getStatus() == Status.SUCCESS) {
@@ -92,9 +87,8 @@ public class ParseEngine implements IEngine {
         }
     }
 
-    private void transfer(Task task) {
+    private void gennerateAndSendFollowingPageTasks(Task task) {
         ParseResult parseResult = task.getParseResult();
-        /* transfer page tasks */
         if (Const.Strings.ONE.equals(task.getMeta().get(Const.TaskParams.PAGE_NUM)) && parseResult.getStatus() == Status.SUCCESS && parseResult.getTotalPage() > 1) {
             IntStream.range(2, parseResult.getTotalPage() + 1).forEach(pageNum -> {
                 try {
@@ -103,7 +97,6 @@ public class ParseEngine implements IEngine {
                     newTask.getMeta().put(Const.TaskParams.PAGE_NUM, String.valueOf(pageNum));
                     newTask.setStartTime(LocalDateTime.now());
                     newTask.genTaskId();
-//                schedulerClient.sendTaskMsg(JSON.toJSONString(newTask));
                     crawlerController.submitTaskMsg(JSON.toJSONString(newTask));
                 } catch (Exception e) {
                     log.warn("{} create&submit following page task failure, task={}", this.getClass().getSimpleName(), task.getTaskId(), e);

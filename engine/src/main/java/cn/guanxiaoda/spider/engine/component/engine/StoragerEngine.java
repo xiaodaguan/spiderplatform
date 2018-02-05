@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.IntStream;
 
 /**
  * Created by guanxiaoda on 2018/1/13.
@@ -29,6 +30,9 @@ public class StoragerEngine implements IEngine {
     @Autowired
     MQManager mqManager;
 
+    @Value("${thread.storager}")
+    int storeagerThread = 10;
+
     @Autowired
     @Qualifier("storagerPool")
     ThreadPoolExecutor storagerPool;
@@ -36,7 +40,7 @@ public class StoragerEngine implements IEngine {
     public void run() {
 
         log.info("Storage engine started.");
-        storagerPool.submit(this::listener);
+        IntStream.range(0, storeagerThread).parallel().forEach(threadNum -> storagerPool.submit(this::listener));
 
     }
 

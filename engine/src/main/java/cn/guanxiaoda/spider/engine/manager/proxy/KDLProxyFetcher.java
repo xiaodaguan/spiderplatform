@@ -43,7 +43,7 @@ public class KDLProxyFetcher implements IProxyFetcher {
         String cont = httpHandler.request(url);
         if (StringUtils.isNotEmpty(cont)) {
             try {
-                proxyListFromProvider = Stream.of(cont.split("\n")).parallel().collect(Collectors.toList());
+                proxyListFromProvider = Stream.of(cont.split("\n")).parallel().map(String::trim).collect(Collectors.toList());
             } catch (Exception ignored) {
                 ignored.printStackTrace();
             }

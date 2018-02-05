@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    config:
+      label: master
+      profile: dev
+      uri: http://localhost:8800
+      name: config-center
+      discovery:
+        service-id: confcenter

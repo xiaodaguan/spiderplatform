@@ -6,7 +6,6 @@ import cn.guanxiaoda.spider.core.item.Task;
 import cn.guanxiaoda.spider.engine.component.IFetcher;
 import cn.guanxiaoda.spider.engine.ctx.Selector;
 import cn.guanxiaoda.spider.engine.manager.mq.MQManager;
-import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,6 +14,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.IntStream;
 
 /**
  * Created by guanxiaoda on 2018/1/13.
@@ -34,13 +34,16 @@ public class FetcherEngine implements IEngine {
     @Qualifier("fetcherPool")
     ThreadPoolExecutor fetcherPool;
 
+    @Value("${thread.fetcher}")
+    int fetcherThread = 10;
+
     @Autowired
     MQManager mqManager;
 
 
     public void run() {
         log.info("Fetch engine started.");
-        fetcherPool.submit(this::listener);
+        IntStream.range(0, fetcherThread).parallel().forEach(threadNum -> fetcherPool.submit(this::listener));
     }
 
     @Override

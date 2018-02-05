@@ -25,7 +25,7 @@ public abstract class BaseParser<T> implements IParser {
         try {
             if (task.getType() == Type.LIST.ordinal()) {
                 parseResult = new ParseResult(extractList(task.getFetchResult().getContent()), extractTotal(task.getFetchResult().getContent()), Status.SUCCESS);
-            } else if (task.getType() == Type.LIST.ordinal()) {
+            } else if (task.getType() == Type.DETAIL.ordinal()) {
                 parseResult = new ParseResult(extractSingle(task.getFetchResult().getContent()), 0, Status.SUCCESS);
             }
         } catch (Exception e) {

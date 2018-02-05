@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by guanxiaoda on 2018/1/13.
@@ -38,12 +39,28 @@ public class Selector implements ApplicationContextAware {
     private static List<String> proxyList = new ArrayList<>();
 
     public static IFetcher selectFetcher(int site, int source, int entity, int type) {
+        while(parserMap.size() == 0){
+            try {
+                log.info("waiting for fetcher register");
+                TimeUnit.MILLISECONDS.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         String name = String.format(Const.KEY_FORMAT, Site.valueOf(site).name(), Source.valueOf(source).name(), Entity.valueOf(entity).name(), Type.valueOf(type).name());
         return fetcherMap.get(name);
 
     }
 
     public static IParser selectParser(int site, int source, int entity, int type) {
+        while(parserMap.size() == 0){
+            try {
+                log.info("waiting for parser register");
+                TimeUnit.MILLISECONDS.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         String name = String.format(Const.KEY_FORMAT, Site.valueOf(site).name(), Source.valueOf(source).name(), Entity.valueOf(entity).name(), Type.valueOf(type).name());
         return parserMap.get(name);
 
@@ -51,6 +68,14 @@ public class Selector implements ApplicationContextAware {
 
     public static IStorager selectStorager(int site, int source, int entity, int type) {
 //        String name = String.format(Const.KEY_FORMAT, Site.valueOf(site).name(), Source.valueOf(source).name(), Entity.valueOf(entity).name(), Type.valueOf(type).name());
+        while(parserMap.size() == 0){
+            try {
+                log.info("waiting for storager register");
+                TimeUnit.MILLISECONDS.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         String name = String.format(Const.KEY_FORMAT, "", "", Entity.valueOf(entity).name(), Type.valueOf(type).name());
         return storagerMap.get(name);
 

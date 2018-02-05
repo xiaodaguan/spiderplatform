@@ -11,8 +11,7 @@ spring:
 rate:
   path: scripts/rateLimiter.lua
   key: redis_rate_limiter_key
-  lianjia:
-    mobile: 0.1
+  common: 1
 
 mysql:
   url: jdbc:mysql://127.0.0.1/spider_db?characterEncoding=utf8

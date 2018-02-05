@@ -19,7 +19,8 @@ public abstract class BaseStorager<T> implements IStorager {
     @Autowired
     protected NutDao dao;
 
-    protected abstract List<T> clean(List<T> items);
+    protected abstract List<T> clean(List<T> items, Task task);
+    protected abstract T clean(T item, Task task);
 
     @Override
     public abstract boolean processe(Task task) ;

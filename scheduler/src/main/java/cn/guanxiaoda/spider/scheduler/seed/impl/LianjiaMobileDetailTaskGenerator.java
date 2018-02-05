@@ -25,12 +25,15 @@ public class LianjiaMobileDetailTaskGenerator extends BaseTaskGenerator implemen
 
     @Override
     public List<Task> getTaskListFromDB(int site, int source, int entity, int type) {
-        FieldMatcher matcher = FieldMatcher.simple("id","itemId");
+        FieldMatcher matcher = FieldMatcher.simple("id", "itemId");
         List<HouseInfo> houseList = dao.query(HouseInfo.class, Cnd.where("site", "=", site).and("source", "=", source), null, matcher);
         log.info("{} read {} items from database.", this.getClass().getSimpleName(), houseList.size());
         return houseList.stream().map(house -> {
             Task task = new Task(site, source, entity, type);
+            task.getMeta().put("id", String.valueOf(house.getId()));
+            task.getMeta().put("itemId", house.getItemId());
             task.genTaskId();
+
             return task;
         }).collect(Collectors.toList());
     }

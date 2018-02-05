@@ -35,6 +35,9 @@ public class ParseEngine implements IEngine {
     @Value("mq.topic.storager.task.list")
     String mqTo = "";
 
+    @Value("${thread.parser}")
+    int parserThread = 10;
+
     @Autowired
     MQManager mqManager;
 
@@ -47,7 +50,8 @@ public class ParseEngine implements IEngine {
 
     public void run() {
         log.info("Parse engine started.");
-        parserPool.submit(this::listener);
+        IntStream.range(0, parserThread).parallel().forEach(threadNum -> parserPool.submit(this::listener));
+
 
     }
 

@@ -1,27 +1,22 @@
+## spring ##
+spring:
+  application:
+    name: crawlerengine
 server:
   port: 8201
-
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8100/eureka/
-## spring
-spring:
-  application:
-    name: crawlerengine
-#  redis:
-#    database: 0
-#    host: 127.0.0.1
-#    port: 6379
-#    password:
-#    pool:
-#      max-active: 8
-#      max-wait: -1
-#      min-idle: 0
-#    timeout: 0
+mysql:
+  url: jdbc:mysql://127.0.0.1/spider_db?characterEncoding=utf8
+  user: root
+  pwd:
 
-## project
+## project ##
 mq:
+  receive:
+    interval: 100
   topic:
     parser:
       task:
@@ -30,10 +25,24 @@ mq:
     crawler:
       task:
         test: mq_crawl_task_test
-
+scheduler:
+  url: 172.30.5.156:8301/scheduler
 proxy:
+  api:
+    kdl: http://%YOUR_PROXY_API%
   fetchRate:
     kdl: 4.9
+
+thread:
+  fetcher: 20
+  parser: 20
+  storager: 20
+
+
+
+#debug: true
 debug: false
 
 
+logging:
+  file: logs/engine.log

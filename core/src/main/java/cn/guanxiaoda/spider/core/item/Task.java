@@ -60,6 +60,8 @@ public class Task {
                 .append(Const.Seps.STRIKETHROUGH).append(type);
         if (Type.LIST == Type.valueOf(type)) {
             taskIdBuilder.append(Const.Seps.STRIKETHROUGH).append(this.getMeta().get(Const.TaskParams.PAGE_NUM) != null ? this.getMeta().get(Const.TaskParams.PAGE_NUM) : 1);
+        } else if (Type.DETAIL == Type.valueOf(type)) {
+            taskIdBuilder.append(Const.Seps.STRIKETHROUGH).append(this.getMeta().get("itemId"));
         }
         this.taskId = taskIdBuilder.toString();
     }

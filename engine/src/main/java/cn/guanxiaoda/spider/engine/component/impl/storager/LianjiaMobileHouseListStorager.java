@@ -26,12 +26,17 @@ public class LianjiaMobileHouseListStorager extends BaseStorager<HouseInfo> impl
 
 
     @Override
-    protected List<HouseInfo> clean(List<HouseInfo> items) {
+    protected List<HouseInfo> clean(List<HouseInfo> items, Task task) {
         return items.parallelStream().peek(item -> {
             item.setUpdateTime(new Date());
             item.setSite(Site.LIANJIA.ordinal());
             item.setSource(Source.MOBEL.ordinal());
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    protected HouseInfo clean(HouseInfo item, Task task) {
+        return null;
     }
 
     @Override
@@ -41,7 +46,7 @@ public class LianjiaMobileHouseListStorager extends BaseStorager<HouseInfo> impl
 
             List<HouseInfo> itemList = JSON.parseObject(String.valueOf(task.getParseResult().getData()), new TypeReference<List<HouseInfo>>() {});
 
-            clean(itemList).stream().forEach(
+            clean(itemList, task).stream().forEach(
                     item -> {
                         try {
                             dao.insertOrUpdate(item);

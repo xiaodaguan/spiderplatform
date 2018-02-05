@@ -12,6 +12,7 @@ import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
@@ -21,8 +22,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
 
 /**
  * Created by guanxiaoda on 2018/1/15.
@@ -63,6 +63,7 @@ public class HttpHandler {
                 .setSocketTimeout(6000)
                 .setConnectionRequestTimeout(6000);
         if (proxy != null) {
+            log.info("{}======>proxy: {}->{}", this.getClass().getSimpleName(), proxy, url);
             configBuilder.setProxy(new HttpHost(proxy.split(Const.Seps.COLON)[0], Integer.parseInt(proxy.split(Const.Seps.COLON)[1])));
         }
         RequestConfig config = configBuilder.build();
@@ -85,6 +86,8 @@ public class HttpHandler {
             response = client.execute(request);
             Header[] resHeaders = response.getAllHeaders();
             fetchResult = new FetchResult(Status.SUCCESS, EntityUtils.toString(response.getEntity()), resHeaders);
+        } catch (ConnectTimeoutException muted) {
+            log.warn("connect time out, url={}", url);
         } catch (Exception e) {
             log.error("http client execute failure, url={}", url, e);
         } finally {

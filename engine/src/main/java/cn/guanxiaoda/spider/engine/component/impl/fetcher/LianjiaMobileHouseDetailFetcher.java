@@ -15,10 +15,11 @@ import cn.guanxiaoda.spider.engine.component.IFetcher;
 @Fetcher(site = Site.LIANJIA, source = Source.MOBEL, entity = Entity.HOUSE, type = Type.DETAIL)
 public class LianjiaMobileHouseDetailFetcher extends BaseFetcher implements IFetcher {
 
+    public static final String DETAIL_PREFIX = "https://m.lianjia.com";
 
     @Override
     public String genRequestUrl(Task task) {
-        return null;
+        return String.format("%s%s", DETAIL_PREFIX, task.getMeta().get("itemId"));
     }
 
 

@@ -51,12 +51,21 @@ public class MQManager {
     }
 
     public boolean submitTask(String topic, Task task) {
-        try {
-            redisTemplate.opsForList().leftPush(topic, JSON.toJSONString(task));
-            return true;
-        } catch (Exception e) {
-            log.error("submit task failure, task={}", JSON.toJSONString(task), e);
-            return false;
+        for (int attmpt = 0; attmpt < 5; attmpt++) {
+            try {
+                redisTemplate.opsForList().leftPush(topic, JSON.toJSONString(task));
+                return true;
+            } catch (Exception e) {
+                log.error("submit task failure, task={}, attempt={}", JSON.toJSONString(task), attmpt, e);
+            } finally {
+                try {
+                    TimeUnit.MILLISECONDS.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+        return false;
+
     }
 }

@@ -2,6 +2,7 @@ package cn.guanxiaoda.spider.engine.manager.proxy;
 
 import cn.guanxiaoda.spider.engine.ctx.Selector;
 import cn.guanxiaoda.spider.engine.http.HttpHandler;
+import com.google.common.util.concurrent.RateLimiter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class KDLProxyFetcher implements IProxyFetcher {
 
     @Value("${proxy.fetchRate.kdl}")
     double rateLimit = 4.0;
-
+    RateLimiter rateLimiter = RateLimiter.create(rateLimit);
     @Value("${proxy.api.kdl}")
     String url = "";
 
@@ -36,10 +37,11 @@ public class KDLProxyFetcher implements IProxyFetcher {
      * 后续按照配置选择代理获取器
      */
     @Override
-    @Scheduled(fixedRate = 1000 * 10)
+    @Scheduled(fixedRate = 1000 * 1)
     public void flushProxyList() {
-        log.info("refreshing proxy list... rateLimit={}, url={}", rateLimit, url);
+//        log.info("refreshing proxy list... rateLimit={}, url={}", rateLimit, url);
         List<String> proxyListFromProvider = new ArrayList<>();
+        rateLimiter.acquire();
         String cont = httpHandler.request(url);
         if (StringUtils.isNotEmpty(cont)) {
             try {
@@ -50,6 +52,6 @@ public class KDLProxyFetcher implements IProxyFetcher {
         }
 
         Selector.setProxyList(proxyListFromProvider);
-        log.info("refreshing proxy done.");
+//        log.info("refreshing proxy done.");
     }
 }

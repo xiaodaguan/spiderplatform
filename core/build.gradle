@@ -8,4 +8,6 @@ dependencies {
     compile group: 'com.alibaba', name: 'fastjson', version: '1.2.44'
     compile group: 'org.nutz', name: 'nutz', version: '1.r.63.r5'
     compile group: 'com.google.guava', name: 'guava', version: '23.6-jre'
+
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa:1.5.9.RELEASE'
 }

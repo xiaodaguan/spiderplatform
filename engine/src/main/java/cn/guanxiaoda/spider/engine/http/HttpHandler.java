@@ -21,7 +21,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.net.ssl.SSLHandshakeException;
 import java.io.IOException;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.HashMap;
 
 /**
@@ -86,8 +89,8 @@ public class HttpHandler {
             response = client.execute(request);
             Header[] resHeaders = response.getAllHeaders();
             fetchResult = new FetchResult(Status.SUCCESS, EntityUtils.toString(response.getEntity()), resHeaders);
-        } catch (ConnectTimeoutException muted) {
-            log.warn("connect time out, url={}", url);
+        } catch (ConnectTimeoutException | SocketException | SSLHandshakeException | SocketTimeoutException muted) {
+            log.warn("conn exception, url={}", url);
         } catch (Exception e) {
             log.error("http client execute failure, url={}", url, e);
         } finally {

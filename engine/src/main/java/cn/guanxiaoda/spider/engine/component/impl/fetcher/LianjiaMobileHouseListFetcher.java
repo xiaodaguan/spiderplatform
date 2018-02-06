@@ -19,7 +19,8 @@ public class LianjiaMobileHouseListFetcher extends BaseFetcher implements IFetch
 
     @Override
     public String genRequestUrl(Task task) {
-        return String.format("https://m.lianjia.com/bj/ershoufang/pg%s/?_t=1", task.getMeta().get(Const.TaskParams.PAGE_NUM));
+        return String.format("https://m.lianjia.com/bj/ershoufang/index/co32pg%s/", task.getMeta().get(Const.TaskParams.PAGE_NUM));
+//        return String.format("https://m.lianjia.com/bj/ershoufang/pg%s/?_t=1", task.getMeta().get(Const.TaskParams.PAGE_NUM));
     }
 
 

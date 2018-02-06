@@ -4,6 +4,7 @@
 **/out
 **/target
 **/*.log
+logs/
 
 .gradle
 gradle

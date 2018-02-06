@@ -78,14 +78,18 @@ public class FetcherEngine implements IEngine {
             } else {
                 // retry
                 synchronized (this) {
-                    task.setRetryNum(task.getRetryNum() + 1);
+                    if (task.getRetryNum() > task.getMaxRetry()) {
+                        // drop task
+                        log.error("drop task(max retry), taskId={}", task.getTaskId());
+                    } else {
+                        task.setRetryNum(task.getRetryNum() + 1);
+                        task.genTaskId();
+                        log.warn("retry task, taskId={}", task.getTaskId());
+
+                        mqManager.submitTask(mqFrom, task);
+                    }
                 }
-                if (task.getRetryNum() > task.getMaxRetry()) {
-                    // drop task
-                    log.error("drop task(max retry), taskId={}", task.getTaskId());
-                } else {
-                    mqManager.submitTask(mqFrom, task);
-                }
+
             }
         }
     }

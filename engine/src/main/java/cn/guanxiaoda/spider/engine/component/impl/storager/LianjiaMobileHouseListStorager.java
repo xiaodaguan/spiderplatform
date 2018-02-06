@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -41,24 +42,27 @@ public class LianjiaMobileHouseListStorager extends BaseStorager<HouseInfo> impl
 
     @Override
     public boolean processe(Task task) {
-        {
-            dao.create(Entity.valueOf(task.getEntity()).getEntityClass(), false);
 
-            List<HouseInfo> itemList = JSON.parseObject(String.valueOf(task.getParseResult().getData()), new TypeReference<List<HouseInfo>>() {});
+//        dao.create(Entity.valueOf(task.getEntity()).getEntityClass(), false);
 
-            clean(itemList, task).stream().forEach(
-                    item -> {
-                        try {
-                            dao.insertOrUpdate(item);
-                        } catch (Exception e) {
-                            log.error("{} insert or update DB failure.", e);
-                        }
+        List<HouseInfo> itemList = JSON.parseObject(String.valueOf(task.getParseResult().getData()), new TypeReference<List<HouseInfo>>() {});
+
+        AtomicInteger inserted = new AtomicInteger();
+        clean(itemList, task).stream().forEach(
+                item -> {
+                    try {
+                        dao.insertOrUpdate(item);
+                        inserted.getAndIncrement();
+                    } catch (Exception e) {
+                        log.error("{} insert or update DB failure.", e);
                     }
-            );
+                }
+        );
+        log.info("{} crawled, {} inserted", itemList.size(), inserted);
 
 
-            return true;
+        return true;
 
-        }
     }
+
 }

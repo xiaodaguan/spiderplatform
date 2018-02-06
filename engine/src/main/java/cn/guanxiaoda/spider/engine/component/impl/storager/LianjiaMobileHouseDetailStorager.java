@@ -37,20 +37,20 @@ public class LianjiaMobileHouseDetailStorager extends BaseStorager<HouseInfo> im
 
     @Override
     public boolean processe(Task task) {
-        {
-            dao.create(Entity.valueOf(task.getEntity()).getEntityClass(), false);
 
-            HouseInfo item = JSON.parseObject(String.valueOf(task.getParseResult().getData()), HouseInfo.class);
+//            dao.create(Entity.valueOf(task.getEntity()).getEntityClass(), false);
 
-            try {
-                dao.updateIgnoreNull(clean(item, task));
-            } catch (Exception e) {
-                log.error("{} insert or update DB failure.", e);
-            }
+        HouseInfo item = JSON.parseObject(String.valueOf(task.getParseResult().getData()), HouseInfo.class);
 
-
-            return true;
-
+        try {
+            dao.updateIgnoreNull(clean(item, task));
+        } catch (Exception e) {
+            log.error("{} insert or update DB failure.", e);
         }
+
+
+        return true;
+
+
     }
 }

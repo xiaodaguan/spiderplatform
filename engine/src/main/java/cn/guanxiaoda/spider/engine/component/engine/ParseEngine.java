@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 /**
@@ -102,8 +103,15 @@ public class ParseEngine implements IEngine {
                     newTask.setStartTime(LocalDateTime.now());
                     newTask.genTaskId();
                     crawlerController.submitTaskMsg(JSON.toJSONString(newTask));
+                    log.info("{} create&submit following page task success, task={}", this.getClass().getSimpleName(), task.getTaskId());
                 } catch (Exception e) {
                     log.warn("{} create&submit following page task failure, task={}", this.getClass().getSimpleName(), task.getTaskId(), e);
+                }finally {
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }

@@ -6,6 +6,9 @@ import org.nutz.dao.entity.annotation.Id;
 import org.nutz.dao.entity.annotation.Name;
 import org.nutz.dao.entity.annotation.Table;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+
 /**
  * 二手房信息
  * https://m.lianjia.com/bj/ershoufang/pg2/?_t=1
@@ -13,9 +16,12 @@ import org.nutz.dao.entity.annotation.Table;
  */
 @Table("house_info")
 @Data
+@Entity
 public class HouseInfo extends BaseEntity {
 
     @Id
+    @javax.persistence.Id
+    @GeneratedValue
     @Column("id")
     private Integer id;
 

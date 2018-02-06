@@ -63,6 +63,7 @@ public class Task {
         } else if (Type.DETAIL == Type.valueOf(type)) {
             taskIdBuilder.append(Const.Seps.STRIKETHROUGH).append(this.getMeta().get("itemId"));
         }
+        taskIdBuilder.append(Const.Seps.COLON).append(this.getRetryNum());
         this.taskId = taskIdBuilder.toString();
     }
 

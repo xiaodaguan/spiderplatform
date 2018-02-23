@@ -56,7 +56,7 @@ public class ScheduleController {
     @RequestMapping(value = "/schedule")
     public void scheduleTasks(@RequestParam int site, @RequestParam int source, @RequestParam int entity, @RequestParam int type) {
         ITaskGenerator generator = Selector.selectTaskGenerator(site, source, entity, type);
-        generator.getTaskListFromDB(site, source, entity, type).parallelStream().forEach(task -> {
+        generator.getTaskList(site, source, entity, type).parallelStream().forEach(task -> {
             while (!rateLimiter.acquire(task.getSite() + Const.Seps.COLON + task.getSource(), qps)) {
             }
             log.info("{} schedule task, taskId = {}", this.getClass().getSimpleName(), task.getTaskId());

@@ -7,16 +7,21 @@ eureka:
 spring:
   application:
     name: scheduler
+  datasource:
+    url: jdbc:mysql://127.0.0.1/spider_db?characterEncoding=utf8
+    username: root
+    password:
+    driver-class-name: com.mysql.jdbc.Driver
+
+
+  jpa:
+    show-sql: true
+    database: mysql
 
 rate:
   path: scripts/rateLimiter.lua
   key: redis_rate_limiter_key
   common: 5
-
-mysql:
-  url: jdbc:mysql://127.0.0.1/spider_db?characterEncoding=utf8
-  user: root
-  pwd:
 
 logging:
   file: logs/scheduler.log

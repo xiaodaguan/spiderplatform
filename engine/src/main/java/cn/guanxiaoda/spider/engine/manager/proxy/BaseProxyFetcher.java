@@ -22,24 +22,22 @@ import java.util.stream.Stream;
 @Slf4j
 @Component
 @ConfigurationProperties
-public class KDLProxyFetcher implements IProxyFetcher {
+public class BaseProxyFetcher implements IProxyFetcher {
 
-    @Value("${proxy.fetchRate.kdl}")
+    @Value("${proxy.fetchRate}")
     double rateLimit = 4.0;
-    RateLimiter rateLimiter = RateLimiter.create(rateLimit);
-    @Value("${proxy.api.kdl}")
+    @Value("${proxy.api}")
     String url = "";
-
     @Autowired
     HttpHandler httpHandler;
+    private RateLimiter rateLimiter = RateLimiter.create(rateLimit);
 
     /**
      * 后续按照配置选择代理获取器
      */
     @Override
-    @Scheduled(fixedRate = 1000 * 1)
+    @Scheduled(fixedRate = 1000)
     public void flushProxyList() {
-//        log.info("refreshing proxy list... rateLimit={}, url={}", rateLimit, url);
         List<String> proxyListFromProvider = new ArrayList<>();
         rateLimiter.acquire();
         String cont = httpHandler.request(url);
@@ -52,6 +50,5 @@ public class KDLProxyFetcher implements IProxyFetcher {
         }
 
         Selector.setProxyList(proxyListFromProvider);
-//        log.info("refreshing proxy done.");
     }
 }

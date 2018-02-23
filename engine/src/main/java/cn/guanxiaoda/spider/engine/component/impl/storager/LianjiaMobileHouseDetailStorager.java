@@ -1,5 +1,6 @@
 package cn.guanxiaoda.spider.engine.component.impl.storager;
 
+import cn.guanxiaoda.spider.core.dao.HouseDao;
 import cn.guanxiaoda.spider.core.enums.Entity;
 import cn.guanxiaoda.spider.core.enums.Site;
 import cn.guanxiaoda.spider.core.enums.Source;
@@ -11,6 +12,7 @@ import cn.guanxiaoda.spider.engine.component.BaseStorager;
 import cn.guanxiaoda.spider.engine.component.IStorager;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.List;
@@ -23,6 +25,9 @@ import java.util.List;
 public class LianjiaMobileHouseDetailStorager extends BaseStorager<HouseInfo> implements IStorager {
 
 
+    @Autowired
+    private HouseDao houseDao;
+
     @Override
     protected List<HouseInfo> clean(List<HouseInfo> items, Task task) {return null;}
 
@@ -31,21 +36,19 @@ public class LianjiaMobileHouseDetailStorager extends BaseStorager<HouseInfo> im
         item.setUpdateTime(new Date());
         item.setSite(Site.LIANJIA.ordinal());
         item.setSource(Source.MOBEL.ordinal());
-        item.setId(Integer.valueOf(task.getMeta().get("id")));
+        item.setFetchDate(new java.sql.Date(System.currentTimeMillis()));
         return item;
     }
 
     @Override
     public boolean processe(Task task) {
 
-//            dao.create(Entity.valueOf(task.getEntity()).getEntityClass(), false);
-
         HouseInfo item = JSON.parseObject(String.valueOf(task.getParseResult().getData()), HouseInfo.class);
 
         try {
-            dao.updateIgnoreNull(clean(item, task));
+            houseDao.saveAndFlush(clean(item, task));
         } catch (Exception e) {
-            log.error("{} insert or update DB failure.", e);
+            log.error("{} insert or update DB failure, item_id={}", this.getClass().getSimpleName(), item.getItemId(), e);
         }
 
 

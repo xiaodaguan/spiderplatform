@@ -28,6 +28,7 @@ public class Const {
     public class TaskParams {
         public static final String PAGE_NUM = "pageNum";
         public static final String PAGE_SIZE = "pageSize";
+        public static final String BIZ_NAME = "bizName";
     }
 
 }

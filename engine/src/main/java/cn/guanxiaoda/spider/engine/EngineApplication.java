@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableFeignClients
 @EnableDiscoveryClient
 @EnableScheduling
-@EnableJpaRepositories("cn.guanxiaoda.spider.engine.dao")
+@EnableJpaRepositories("cn.guanxiaoda.spider.core.dao")
 @EntityScan("cn.guanxiaoda.spider.core.po")
 public class EngineApplication {
 

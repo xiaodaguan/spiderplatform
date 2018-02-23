@@ -1,6 +1,5 @@
 package cn.guanxiaoda.spider.core.enums;
 
-import cn.guanxiaoda.spider.core.po.BaseEntity;
 import cn.guanxiaoda.spider.core.po.HouseInfo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +17,7 @@ public enum Entity {
     /**
      * 未分类
      */
-    DEFAULT("Default", BaseEntity.class),
+    DEFAULT("Default", null),
     /**
      * 房
      */

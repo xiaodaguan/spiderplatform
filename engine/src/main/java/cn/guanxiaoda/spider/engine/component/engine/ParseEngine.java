@@ -96,23 +96,27 @@ public class ParseEngine implements IEngine {
         ParseResult parseResult = task.getParseResult();
         if (Const.Strings.ONE.equals(task.getMeta().get(Const.TaskParams.PAGE_NUM)) && parseResult.getStatus() == Status.SUCCESS && parseResult.getTotalPage() > 1) {
             IntStream.range(2, parseResult.getTotalPage() + 1).forEach(pageNum -> {
-                try {
-                    Task newTask = new Task(task.getSite(), task.getSource(), task.getEntity(), task.getType());
-                    BeanUtils.copyProperties(task, newTask, "taskId", "startTime", "fetchResult", "parseResult", "site", "source", "entity", "type");
-                    newTask.getMeta().put(Const.TaskParams.PAGE_NUM, String.valueOf(pageNum));
-                    newTask.setStartTime(LocalDateTime.now());
-                    newTask.genTaskId();
-                    crawlerController.submitTaskMsg(JSON.toJSONString(newTask));
-                    log.info("{} create&submit following page task success, task={}", this.getClass().getSimpleName(), task.getTaskId());
-                } catch (Exception e) {
-                    log.warn("{} create&submit following page task failure, task={}", this.getClass().getSimpleName(), task.getTaskId(), e);
-                }finally {
+                for (int retryNum = 0; retryNum < 5; retryNum++) {
                     try {
-                        TimeUnit.MILLISECONDS.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Task newTask = new Task(task.getSite(), task.getSource(), task.getEntity(), task.getType());
+                        BeanUtils.copyProperties(task, newTask, "taskId", "startTime", "fetchResult", "parseResult", "site", "source", "entity", "type");
+                        newTask.getMeta().put(Const.TaskParams.PAGE_NUM, String.valueOf(pageNum));
+                        newTask.setStartTime(LocalDateTime.now());
+                        newTask.genTaskId();
+                        crawlerController.submitTaskMsg(JSON.toJSONString(newTask));
+                        log.info("{} create&submit following page task success, task={}", this.getClass().getSimpleName(), task.getTaskId());
+                        break;
+                    } catch (Exception e) {
+                        log.warn("{} create&submit following page task failure, task={}, errMsg={}", this.getClass().getSimpleName(), task.getTaskId(), e.getMessage());
+                    } finally {
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
+                log.warn("{} page task max retry, pageNum={}", this.getClass().getSimpleName(), pageNum);
             });
         }
     }

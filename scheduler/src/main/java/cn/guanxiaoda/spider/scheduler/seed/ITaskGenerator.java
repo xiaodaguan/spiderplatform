@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface ITaskGenerator {
 
-    List<Task> getTaskListFromDB(int site, int source, int entity, int type);
+    List<Task> getTaskList(int site, int source, int entity, int type);
 }
